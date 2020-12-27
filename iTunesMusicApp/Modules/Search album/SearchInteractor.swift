@@ -30,7 +30,7 @@ class SearchInteractor: SearchBusinessLogic {
         switch request {
         case .some:
             print("Some...")
-        case .getAlbums(let searchText):            
+        case .getSearchData(let searchText):            
             self.getSearchData(with: searchText)
         }
     }
@@ -42,7 +42,7 @@ class SearchInteractor: SearchBusinessLogic {
             switch resultData {
             
             case .success(let searchResult):
-                self?.presenter?.presentData(response: Search.Model.Response.ResponseType.presentAlbums(resultAlbums: searchResult))
+                self?.presenter?.presentData(response: Search.Model.Response.ResponseType.presentSearchData(resultSearch: searchResult))
                 
             case .failure(let error):
                 print(error.localizedDescription)

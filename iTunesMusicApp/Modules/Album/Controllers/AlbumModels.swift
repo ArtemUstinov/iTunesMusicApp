@@ -8,24 +8,39 @@
 
 import UIKit
 
-enum Album {
+enum SelectedAlbum {
    
   enum Model {
     struct Request {
       enum RequestType {
-        case some
+        case getAlbumInfo(albumId: Int)
       }
     }
     struct Response {
       enum ResponseType {
-        case some
+        case presentAlbum(resultAlbum: [Track]?)
       }
     }
     struct ViewModel {
       enum ViewModelData {
-        case some
+        case displayAlbumData(tracksViewModel: TracksViewModel)
       }
     }
   }
-  
 }
+
+struct TracksViewModel {
+    struct Track {
+        let artistName: String?
+        let albumName: String?
+        let trackName: String?
+        let collectionId: Int?
+        let coverUrlString: String?
+        let priceOfTrack: Double?
+        let priceOfAlbum: Double?
+        let currency: String?
+    }
+    
+    let tracks: [Track]?
+}
+

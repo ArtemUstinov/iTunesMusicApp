@@ -8,7 +8,17 @@
 
 import UIKit
 
+protocol SearchCellViewModel {
+    var coverUrlString: String? { get }
+    var albumName: String? { get }
+    var artistName: String? { get }
+    var priceOfAlbum: Double? { get }
+}
+
 class SearchAlbumCell: UITableViewCell {
+    
+    //MARK: - Public properties:
+    static let cellIdentifier = "SearchAlbumCell"
     
     //MARK: - Private properties:
     private let coverOfAlbum: CoverImageView = {
@@ -17,29 +27,54 @@ class SearchAlbumCell: UITableViewCell {
         return image
     }()
     
-    private let trackNameLabel: UILabel = {
+    private let albumNameLabel: UILabel = {
         let label = UILabel()
-        
+        label.font = UIFont(name: "System", size: 14)
+        label.numberOfLines = 0
         return label
     }()
     
-    private let singerNameLabel: UILabel = {
+    private let artistNameLabel: UILabel = {
         let label = UILabel()
-        
+        label.font = .systemFont(ofSize: 13)
+        label.textColor = #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1)
+        label.numberOfLines = 0
         return label
     }()
+    
+    private let priceAlbumLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 11)
+        label.textColor = #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1)
+        label.textAlignment = .right
+        return label
+    }()
+    
+    //MARK: - Override methods:
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        coverOfAlbum.image = nil
+    }
     
     //MARK: - Public methods:
-    func configureCell(with albums: CellViewModel.Cell?) {
+    func configureCell(with album: SearchCellViewModel?) {
         
         coverOfAlbum.fetchImage(from:
-            albums?.coverUrlString ?? "")
+            album?.coverUrlString ?? "")
+        albumNameLabel.text = album?.albumName
+        artistNameLabel.text = album?.artistName
+        priceAlbumLabel.text = "\(album?.priceOfAlbum ?? 0)$"
+        
         setupSubviews()
     }
     
     //MARK: - Private methods:
     private func setupSubviews() {
         addSubview(coverOfAlbum)
+        addSubview(albumNameLabel)
+        addSubview(artistNameLabel)
+        addSubview(priceAlbumLabel)
         setupConstraints()
     }
     
@@ -48,38 +83,43 @@ class SearchAlbumCell: UITableViewCell {
         coverOfAlbum.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             coverOfAlbum.topAnchor.constraint(equalTo: self.topAnchor,
-                                            constant: 12),
+                                              constant: 3),
             coverOfAlbum.bottomAnchor.constraint(equalTo: self.bottomAnchor,
-                                               constant: 12),
+                                                 constant: -3),
             coverOfAlbum.leftAnchor.constraint(equalTo: self.leftAnchor,
-                                             constant: 5)])
-//            coverOfAlbum.trailingAnchor.constraint(equalTo: trackNameLabel.leftAnchor,
-//                                                 constant: 5)])
-//        coverOfAlbum.heightAnchor.constraint(equalToConstant: 40),
-//        coverOfAlbum.widthAnchor.constraint(equalToConstant: 40)])
+                                               constant: 2),
+            coverOfAlbum.heightAnchor.constraint(equalToConstant: 50),
+            coverOfAlbum.widthAnchor.constraint(equalToConstant: 55)])
         
-//        trackNameLabel.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            trackNameLabel.topAnchor.constraint(equalTo: self.topAnchor,
-//                                                constant: 0),
-//            trackNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
-//                                                   constant: 3),
-//            trackNameLabel.leftAnchor.constraint(equalTo: coverOfAlbum.rightAnchor,
-//                                                 constant: 0),
-//            trackNameLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0)
-//        ])
+        albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            albumNameLabel.topAnchor.constraint(equalTo: self.topAnchor,
+                                                constant: 4),
+            albumNameLabel.bottomAnchor.constraint(equalTo: artistNameLabel.topAnchor,
+                                                   constant: -4),
+            albumNameLabel.leftAnchor.constraint(equalTo: coverOfAlbum.rightAnchor,
+                                                 constant: 5),
+        ])
         
-//        singerNameLabel.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            singerNameLabel.topAnchor.constraint(equalTo: trackNameLabel.bottomAnchor,
-//                                                constant: 0),
-//            singerNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
-//                                                   constant: 0),
-//            singerNameLabel.leftAnchor.constraint(equalTo: coverOfAlbum.rightAnchor,
-//                                                 constant: 5),
-//            singerNameLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
-//                                                   constant: 0)
-//        ])
+        artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            artistNameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
+                                                    constant: -4),
+            artistNameLabel.leftAnchor.constraint(equalTo: coverOfAlbum.rightAnchor,
+                                                  constant: 5),
+            artistNameLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
+                                                   constant: -16)
+        ])
         
+        priceAlbumLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            priceAlbumLabel.topAnchor.constraint(equalTo: self.topAnchor,
+                                                    constant: 5),
+            priceAlbumLabel.leftAnchor.constraint(equalTo: albumNameLabel.rightAnchor,
+                                                  constant: 5),
+            priceAlbumLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
+                                                   constant: -5),
+            priceAlbumLabel.widthAnchor.constraint(equalToConstant: 40)
+        ])
     }
 }

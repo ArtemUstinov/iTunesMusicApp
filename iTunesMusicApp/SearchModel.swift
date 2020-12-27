@@ -6,4 +6,8 @@
 //  Copyright © 2020 Artem Ustinov. All rights reserved.
 //
 
-import Foundation
+struct SearchModel<T: Decodable>: Decodable {
+    let resultCount: Int?
+    let  results: [T]?
+}
+

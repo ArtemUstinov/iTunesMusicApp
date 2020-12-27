@@ -9,22 +9,46 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
+    //MARK: - Private properties:
+    private let searchVC = SearchViewController()
+    private let libraryVC =
+        LibraryViewController(collectionViewLayout: UICollectionViewFlowLayout())
+    
+    //MARK: - Override methods:
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        setupTabBar()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: - Private methods:
+    private func setupTabBar() {
+        
+        tabBar.barTintColor = .secondarySystemBackground
+        tabBar.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.3764705882, alpha: 1)
+        
+        viewControllers = [
+            generateViewController(rootViewController: searchVC,
+                                   image: UIImage(systemName: "magnifyingglass"),
+                                   title: "Search"),
+            generateViewController(rootViewController: libraryVC,
+                                   image: UIImage(systemName: "music.house"),
+                                   title: "Library")
+        ]
     }
-    */
-
+    
+    private func generateViewController(rootViewController: UIViewController,
+                                        image: UIImage?,
+                                        title: String) -> UIViewController {
+        
+        let navigationVC =
+            UINavigationController(rootViewController: rootViewController)
+        navigationVC.tabBarItem.image = image
+        navigationVC.tabBarItem.title = title
+        rootViewController.navigationItem.title = title
+        navigationVC.navigationBar.prefersLargeTitles = true
+        
+        return navigationVC
+    }
 }

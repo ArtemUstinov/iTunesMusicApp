@@ -23,19 +23,23 @@ class SearchPresenter: SearchPresentationLogic {
         switch response {
         case .some:
             print("Some...")
-        case .presentAlbums(let resultAlbums):
+        case .presentSearchData(let resultAlbums):
             
             let albums = resultAlbums?.map({ album in
-                getSearchViewModel(from: album)
+                getSearchCellViewModel(from: album)
             })
-            let searchViewModel = SearchViewModel(cells: albums)
-            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displayAlbums(searchViewModel: searchViewModel))
+            let searchViewModel = CellSearchViewModel(cells: albums)
+            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displaySearchData(searchViewModel: searchViewModel))
         }
     }
     
     //MARK: - Private methods:
-    private func getSearchViewModel(from album: Album?) -> SearchViewModel.Cell {
+    private func getSearchCellViewModel(from album: Album?) -> CellSearchViewModel.Cell {
         
-        SearchViewModel.Cell(coverUrlString: album?.albumPicture)
+        CellSearchViewModel.Cell(coverUrlString: album?.albumPicture,
+                           albumName: album?.collectionName,
+                           artistName: album?.artistName,
+                           priceOfAlbum: album?.collectionPrice,
+                           collectionId: album?.collectionId)
     }
 }

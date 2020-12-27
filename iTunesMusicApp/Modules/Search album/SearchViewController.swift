@@ -18,13 +18,11 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     var interactor: SearchBusinessLogic?
     var router: (NSObjectProtocol & SearchRoutingLogic)?
     
-    //MARK: - Private properties:
-    private let cellIdentifier = "SearchAlbumCell"
-    
+    //MARK: - Private properties:    
     private let searchController =
         UISearchController(searchResultsController: nil)
     
-    private var albums = SearchViewModel(cells: [])
+    private var albums = CellSearchViewModel(cells: [])
     
     private var timer: Timer?
         
@@ -51,7 +49,7 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         switch viewModel {
         case .some:
             print("Some...")
-        case .displayAlbums(let searchViewModel):
+        case .displaySearchData(let searchViewModel):
             self.albums = searchViewModel
             print("Search response!")
             DispatchQueue.main.async {
@@ -76,7 +74,7 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     //MARK: - Private methods:
     private func setupTableView() {
         tableView.register(SearchAlbumCell.self,
-                                forCellReuseIdentifier: cellIdentifier)
+                           forCellReuseIdentifier: SearchAlbumCell.cellIdentifier)
         
         tableView.backgroundColor = .secondarySystemBackground
     }
@@ -86,19 +84,6 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         detailAlbumVC.modalPresentationStyle = .popover
         present(detailAlbumVC, animated: true)
     }
-
-    //  // MARK: Object lifecycle
-    //
-    //  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    //    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    //    setup()
-    //  }
-    //
-    //  required init?(coder aDecoder: NSCoder) {
-    //    super.init(coder: aDecoder)
-    //    setup()
-    //  }
-    
     
     // MARK: Routing
 }
@@ -115,7 +100,7 @@ extension SearchViewController {
                                  cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell =
-            tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
+            tableView.dequeueReusableCell(withIdentifier: SearchAlbumCell.cellIdentifier,
                                                for: indexPath) as? SearchAlbumCell else {
                                                 fatalError("Error! Not cell")
         }
@@ -129,13 +114,14 @@ extension SearchViewController {
     
     override func tableView(_ tableView: UITableView,
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
-        66
+        64
     }
     
     override func tableView(_ tableView: UITableView,
                                  didSelectRowAt indexPath: IndexPath) {
         
-        performTo(DetailAlbumViewController())
+        let selectedAlbum = albums.cells?[indexPath.row].collectionId ?? 0
+        performTo(AlbumViewController(idAlbum: selectedAlbum))
     }
 }
 
@@ -154,7 +140,7 @@ extension SearchViewController: UISearchResultsUpdating {
         timer = Timer.scheduledTimer(withTimeInterval: 0.4,
                                      repeats: false,
                                      block: { [weak self] _ in
-                                        self?.interactor?.makeRequest(request: Search.Model.Request.RequestType.getAlbums(searchText: searchText))
+                                        self?.interactor?.makeRequest(request: Search.Model.Request.RequestType.getSearchData(searchText: searchText))
         })
     }
     
@@ -168,7 +154,7 @@ extension SearchViewController: UISearchResultsUpdating {
         definesPresentationContext = true
     }
     
-    private func getFilteredAlbums(indexPath: IndexPath) -> SearchViewModel.Cell? {
+    private func getFilteredAlbums(indexPath: IndexPath) -> CellSearchViewModel.Cell? {
         
         isFiltering ? albums.cells?[indexPath.item] : nil
     }
