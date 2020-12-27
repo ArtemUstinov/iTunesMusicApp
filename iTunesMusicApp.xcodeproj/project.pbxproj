@@ -9,21 +9,57 @@
 /* Begin PBXBuildFile section */
 		AC26DC9925935DEF00B1657B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DC9825935DEF00B1657B /* AppDelegate.swift */; };
 		AC26DC9B25935DEF00B1657B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DC9A25935DEF00B1657B /* SceneDelegate.swift */; };
-		AC26DC9D25935DEF00B1657B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DC9C25935DEF00B1657B /* ViewController.swift */; };
-		AC26DCA025935DEF00B1657B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC26DC9E25935DEF00B1657B /* Main.storyboard */; };
 		AC26DCA225935DF500B1657B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC26DCA125935DF500B1657B /* Assets.xcassets */; };
 		AC26DCA525935DF500B1657B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */; };
+		AC26DCAD2593600700B1657B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCAC2593600700B1657B /* TabBarController.swift */; };
+		AC26DCB1259362B000B1657B /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCB0259362B000B1657B /* LibraryViewController.swift */; };
+		AC26DCC52594F6CB00B1657B /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC42594F6CB00B1657B /* SearchModel.swift */; };
+		AC26DCC72594F76A00B1657B /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC62594F76A00B1657B /* AlbumModel.swift */; };
+		AC26DCC92594F78400B1657B /* TrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC82594F78400B1657B /* TrackModel.swift */; };
+		AC26DCCB2594FB2D00B1657B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */; };
+		AC26DCCF2595065900B1657B /* CoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCCE2595065900B1657B /* CoverImageView.swift */; };
+		ACC83CFE25960629008DDA3A /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF725960629008DDA3A /* SearchPresenter.swift */; };
+		ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF825960629008DDA3A /* SearchWorker.swift */; };
+		ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF925960629008DDA3A /* SearchRouter.swift */; };
+		ACC83D0125960629008DDA3A /* SearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CFA25960629008DDA3A /* SearchModels.swift */; };
+		ACC83D0225960629008DDA3A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CFB25960629008DDA3A /* SearchViewController.swift */; };
+		ACC83D0325960629008DDA3A /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CFC25960629008DDA3A /* SearchInteractor.swift */; };
+		ACC83D0625963109008DDA3A /* SearchAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83D0525963109008DDA3A /* SearchAlbumCell.swift */; };
+		ACF22D632597E452007DC991 /* AlbumPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5C2597E452007DC991 /* AlbumPresenter.swift */; };
+		ACF22D642597E452007DC991 /* AlbumWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5D2597E452007DC991 /* AlbumWorker.swift */; };
+		ACF22D652597E452007DC991 /* AlbumRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5E2597E452007DC991 /* AlbumRouter.swift */; };
+		ACF22D662597E452007DC991 /* AlbumModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5F2597E452007DC991 /* AlbumModels.swift */; };
+		ACF22D672597E452007DC991 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D602597E452007DC991 /* AlbumViewController.swift */; };
+		ACF22D682597E452007DC991 /* AlbumInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D612597E452007DC991 /* AlbumInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AC26DC9525935DEF00B1657B /* iTunesMusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTunesMusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC26DC9825935DEF00B1657B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC26DC9A25935DEF00B1657B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AC26DC9C25935DEF00B1657B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		AC26DC9F25935DEF00B1657B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AC26DCA125935DF500B1657B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC26DCA425935DF500B1657B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC26DCA625935DF500B1657B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC26DCAC2593600700B1657B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		AC26DCB0259362B000B1657B /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		AC26DCC42594F6CB00B1657B /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		AC26DCC62594F76A00B1657B /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		AC26DCC82594F78400B1657B /* TrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackModel.swift; sourceTree = "<group>"; };
+		AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		AC26DCCE2595065900B1657B /* CoverImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageView.swift; sourceTree = "<group>"; };
+		ACC83CF725960629008DDA3A /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
+		ACC83CF825960629008DDA3A /* SearchWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
+		ACC83CF925960629008DDA3A /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
+		ACC83CFA25960629008DDA3A /* SearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModels.swift; sourceTree = "<group>"; };
+		ACC83CFB25960629008DDA3A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		ACC83CFC25960629008DDA3A /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		ACC83D0525963109008DDA3A /* SearchAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlbumCell.swift; sourceTree = "<group>"; };
+		ACF22D5C2597E452007DC991 /* AlbumPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPresenter.swift; sourceTree = "<group>"; };
+		ACF22D5D2597E452007DC991 /* AlbumWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumWorker.swift; sourceTree = "<group>"; };
+		ACF22D5E2597E452007DC991 /* AlbumRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRouter.swift; sourceTree = "<group>"; };
+		ACF22D5F2597E452007DC991 /* AlbumModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModels.swift; sourceTree = "<group>"; };
+		ACF22D602597E452007DC991 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
+		ACF22D612597E452007DC991 /* AlbumInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +94,151 @@
 			children = (
 				AC26DC9825935DEF00B1657B /* AppDelegate.swift */,
 				AC26DC9A25935DEF00B1657B /* SceneDelegate.swift */,
-				AC26DC9C25935DEF00B1657B /* ViewController.swift */,
-				AC26DC9E25935DEF00B1657B /* Main.storyboard */,
-				AC26DCA125935DF500B1657B /* Assets.xcassets */,
-				AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */,
 				AC26DCA625935DF500B1657B /* Info.plist */,
+				AC26DCA125935DF500B1657B /* Assets.xcassets */,
+				AC26DCCC2595062900B1657B /* Extensions for UI */,
+				AC26DCC02594F68600B1657B /* Service */,
+				AC26DCBB2594F18B00B1657B /* TabBar */,
+				AC26DCB0259362B000B1657B /* LibraryViewController.swift */,
+				AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */,
 			);
 			path = iTunesMusicApp;
+			sourceTree = "<group>";
+		};
+		AC26DCB22594D85C00B1657B /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCB32594D86200B1657B /* Search album */,
+				AC26DCB82594F14200B1657B /* Album */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		AC26DCB32594D86200B1657B /* Search album */ = {
+			isa = PBXGroup;
+			children = (
+				ACC83D07259653C8008DDA3A /* Cell */,
+				ACC83CFB25960629008DDA3A /* SearchViewController.swift */,
+				ACC83CFC25960629008DDA3A /* SearchInteractor.swift */,
+				ACC83CF725960629008DDA3A /* SearchPresenter.swift */,
+				ACC83CFA25960629008DDA3A /* SearchModels.swift */,
+				ACC83CF825960629008DDA3A /* SearchWorker.swift */,
+				ACC83CF925960629008DDA3A /* SearchRouter.swift */,
+			);
+			path = "Search album";
+			sourceTree = "<group>";
+		};
+		AC26DCB82594F14200B1657B /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCBA2594F15C00B1657B /* View */,
+				AC26DCB92594F15600B1657B /* Controllers */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		AC26DCB92594F15600B1657B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ACF22D602597E452007DC991 /* AlbumViewController.swift */,
+				ACF22D612597E452007DC991 /* AlbumInteractor.swift */,
+				ACF22D5C2597E452007DC991 /* AlbumPresenter.swift */,
+				ACF22D5F2597E452007DC991 /* AlbumModels.swift */,
+				ACF22D5D2597E452007DC991 /* AlbumWorker.swift */,
+				ACF22D5E2597E452007DC991 /* AlbumRouter.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AC26DCBA2594F15C00B1657B /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AC26DCBB2594F18B00B1657B /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCAC2593600700B1657B /* TabBarController.swift */,
+				AC26DCBC2594F24500B1657B /* Search Tab */,
+				AC26DCBD2594F25B00B1657B /* Library Tab */,
+			);
+			name = TabBar;
+			sourceTree = "<group>";
+		};
+		AC26DCBC2594F24500B1657B /* Search Tab */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCB22594D85C00B1657B /* Modules */,
+			);
+			name = "Search Tab";
+			sourceTree = "<group>";
+		};
+		AC26DCBD2594F25B00B1657B /* Library Tab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Library Tab";
+			sourceTree = "<group>";
+		};
+		AC26DCC02594F68600B1657B /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCC12594F69600B1657B /* Network */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		AC26DCC12594F69600B1657B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCC22594F6A400B1657B /* Models */,
+				AC26DCC32594F6AD00B1657B /* NetworkManager */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		AC26DCC22594F6A400B1657B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCC42594F6CB00B1657B /* SearchModel.swift */,
+				AC26DCC62594F76A00B1657B /* AlbumModel.swift */,
+				AC26DCC82594F78400B1657B /* TrackModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		AC26DCC32594F6AD00B1657B /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */,
+			);
+			name = NetworkManager;
+			sourceTree = "<group>";
+		};
+		AC26DCCC2595062900B1657B /* Extensions for UI */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCCD2595064100B1657B /* View */,
+			);
+			name = "Extensions for UI";
+			sourceTree = "<group>";
+		};
+		AC26DCCD2595064100B1657B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCCE2595065900B1657B /* CoverImageView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		ACC83D07259653C8008DDA3A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				ACC83D0525963109008DDA3A /* SearchAlbumCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +301,6 @@
 			files = (
 				AC26DCA525935DF500B1657B /* LaunchScreen.storyboard in Resources */,
 				AC26DCA225935DF500B1657B /* Assets.xcassets in Resources */,
-				AC26DCA025935DEF00B1657B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +311,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC26DC9D25935DEF00B1657B /* ViewController.swift in Sources */,
+				AC26DCAD2593600700B1657B /* TabBarController.swift in Sources */,
+				ACC83D0625963109008DDA3A /* SearchAlbumCell.swift in Sources */,
+				AC26DCC52594F6CB00B1657B /* SearchModel.swift in Sources */,
+				ACF22D632597E452007DC991 /* AlbumPresenter.swift in Sources */,
+				ACC83D0225960629008DDA3A /* SearchViewController.swift in Sources */,
+				ACF22D682597E452007DC991 /* AlbumInteractor.swift in Sources */,
+				ACF22D652597E452007DC991 /* AlbumRouter.swift in Sources */,
+				AC26DCC92594F78400B1657B /* TrackModel.swift in Sources */,
+				ACF22D662597E452007DC991 /* AlbumModels.swift in Sources */,
+				AC26DCCF2595065900B1657B /* CoverImageView.swift in Sources */,
+				ACF22D672597E452007DC991 /* AlbumViewController.swift in Sources */,
+				ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */,
+				ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */,
+				ACC83D0125960629008DDA3A /* SearchModels.swift in Sources */,
+				ACF22D642597E452007DC991 /* AlbumWorker.swift in Sources */,
+				AC26DCCB2594FB2D00B1657B /* NetworkManager.swift in Sources */,
+				AC26DCB1259362B000B1657B /* LibraryViewController.swift in Sources */,
+				AC26DCC72594F76A00B1657B /* AlbumModel.swift in Sources */,
+				ACC83D0325960629008DDA3A /* SearchInteractor.swift in Sources */,
 				AC26DC9925935DEF00B1657B /* AppDelegate.swift in Sources */,
+				ACC83CFE25960629008DDA3A /* SearchPresenter.swift in Sources */,
 				AC26DC9B25935DEF00B1657B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +339,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		AC26DC9E25935DEF00B1657B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AC26DC9F25935DEF00B1657B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
