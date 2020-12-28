@@ -8,33 +8,42 @@
 
 import UIKit
 
-class CoverImageView: UIImageView {
+class CachedImageView: UIImageView {
     
     //MARK: - Private properties:
     private let networkManager = NetworkManager()
     
     //MARK: - Public methods:
-    func fetchImage(from url: String) {
-        guard let url = URL(string: url) else {
-            image = #imageLiteral(resourceName: "album-art-empty")
+    func setImage(url: String?, placeholder: UIImage? = nil) {
+
+        guard let urlString = url,
+              let url = URL(string: urlString) else {
+            image = placeholder
             return
         }
-        
+
         if let cachedImage = getCachedImage(from: url) {
             print("Cached photo was displayed")
             image = cachedImage
             return
         }
 
-        networkManager.fetchImageData(from: url, completion: {
-            [unowned self] (imageData, response) in
-            DispatchQueue.main.async {
-                self.image = UIImage(data: imageData)
+        networkManager.fetchImageData(from: url) { [weak self] result in
+
+            switch result {
+            case .success((let data, let response)):
+                DispatchQueue.main.async {
+                    self?.image = UIImage(data: data)
+                }
+                self?.saveImageToCache(from: data, and: response)
+
+            case .failure(let error):
+                self?.image = placeholder
+                print(error)
             }
-            self.saveImageToCache(from: imageData, and: response)
-        })
+        }
     }
-    
+
     //MARK: - Private methods:
     private func getCachedImage(from url: URL) -> UIImage? {
         

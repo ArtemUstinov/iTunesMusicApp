@@ -16,7 +16,7 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     
     //MARK: - Public properties:
     var interactor: SearchBusinessLogic?
-    var router: (NSObjectProtocol & SearchRoutingLogic)?
+    var router: SearchRoutingLogic?
     
     //MARK: - Private properties:    
     private let searchController =
@@ -75,14 +75,16 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     private func setupTableView() {
         tableView.register(SearchAlbumCell.self,
                            forCellReuseIdentifier: SearchAlbumCell.cellIdentifier)
-        
+
+        tableView.rowHeight = 64
+//        tableView.estimatedRowHeight = 64
         tableView.backgroundColor = .secondarySystemBackground
     }
     
     private func performTo(_ viewController: UIViewController) {
-        let detailAlbumVC = viewController
-        detailAlbumVC.modalPresentationStyle = .popover
-        present(detailAlbumVC, animated: true)
+//        let detailAlbumVC = viewController
+//        detailAlbumVC.modalPresentationStyle = .popover
+        present(viewController, animated: true)
     }
     
     // MARK: Routing
@@ -112,19 +114,18 @@ extension SearchViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView,
-                            heightForRowAt indexPath: IndexPath) -> CGFloat {
-        64
-    }
+//    override func tableView(_ tableView: UITableView,
+//                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        64
+//    }
     
     override func tableView(_ tableView: UITableView,
-                                 didSelectRowAt indexPath: IndexPath) {
-        
-        let selectedAlbum = albums.cells?[indexPath.row].collectionId ?? 0
-        performTo(AlbumViewController(idAlbum: selectedAlbum))
+                            didSelectRowAt indexPath: IndexPath) {
+
+        guard let albumId = albums.cells?[indexPath.row].collectionId else { return }
+        router?.presentAlbumViewController(albumId: albumId)
     }
 }
-
 
 //MARK: - UISearch bar delegate
 extension SearchViewController: UISearchResultsUpdating {

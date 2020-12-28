@@ -35,6 +35,8 @@ class AlbumViewController: UIViewController, AlbumDisplayLogic {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
+
         return label
     }()
     private let priceAlbumLabel: UILabel = {
@@ -44,8 +46,8 @@ class AlbumViewController: UIViewController, AlbumDisplayLogic {
     }()
     private let tracksCountLabel = UILabel()
     
-    private let albumImage: CoverImageView = {
-        let image = CoverImageView()
+    private let albumImage: CachedImageView = {
+        let image = CachedImageView()
         image.contentMode = .scaleAspectFill
         return image
     }()
@@ -83,7 +85,7 @@ class AlbumViewController: UIViewController, AlbumDisplayLogic {
             albumNameLabel.text = track.albumName
             priceAlbumLabel.text = "\(track.priceOfAlbum ?? 0) \(track.currency ?? "")"
             tracksCountLabel.text = "The album has: \(tracks.tracks?.count ?? 0) tracks:"
-            albumImage.fetchImage(from: track.coverUrlString ?? "")
+            albumImage.setImage(url: track.coverUrlString, placeholder: #imageLiteral(resourceName: "album-art-empty"))
         })
     }
     

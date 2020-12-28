@@ -31,6 +31,7 @@
 		ACF22D662597E452007DC991 /* AlbumModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5F2597E452007DC991 /* AlbumModels.swift */; };
 		ACF22D672597E452007DC991 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D602597E452007DC991 /* AlbumViewController.swift */; };
 		ACF22D682597E452007DC991 /* AlbumInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D612597E452007DC991 /* AlbumInteractor.swift */; };
+		DAFE789125989D540056FD9E /* NetworkDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE789025989D540056FD9E /* NetworkDefault.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		ACF22D5F2597E452007DC991 /* AlbumModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModels.swift; sourceTree = "<group>"; };
 		ACF22D602597E452007DC991 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		ACF22D612597E452007DC991 /* AlbumInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumInteractor.swift; sourceTree = "<group>"; };
+		DAFE789025989D540056FD9E /* NetworkDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDefault.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,28 +195,21 @@
 		AC26DCC12594F69600B1657B /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				AC26DCC22594F6A400B1657B /* Models */,
-				AC26DCC32594F6AD00B1657B /* NetworkManager */,
+				AC26DCC22594F6A400B1657B /* NetworkModels */,
+				AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */,
+				DAFE789025989D540056FD9E /* NetworkDefault.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
 		};
-		AC26DCC22594F6A400B1657B /* Models */ = {
+		AC26DCC22594F6A400B1657B /* NetworkModels */ = {
 			isa = PBXGroup;
 			children = (
 				AC26DCC42594F6CB00B1657B /* SearchModel.swift */,
 				AC26DCC62594F76A00B1657B /* AlbumModel.swift */,
 				AC26DCC82594F78400B1657B /* TrackModel.swift */,
 			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		AC26DCC32594F6AD00B1657B /* NetworkManager */ = {
-			isa = PBXGroup;
-			children = (
-				AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */,
-			);
-			name = NetworkManager;
+			name = NetworkModels;
 			sourceTree = "<group>";
 		};
 		AC26DCCC2595062900B1657B /* Extensions for UI */ = {
@@ -313,6 +308,7 @@
 			files = (
 				AC26DCAD2593600700B1657B /* TabBarController.swift in Sources */,
 				ACC83D0625963109008DDA3A /* SearchAlbumCell.swift in Sources */,
+				DAFE789125989D540056FD9E /* NetworkDefault.swift in Sources */,
 				AC26DCC52594F6CB00B1657B /* SearchModel.swift in Sources */,
 				ACF22D632597E452007DC991 /* AlbumPresenter.swift in Sources */,
 				ACC83D0225960629008DDA3A /* SearchViewController.swift in Sources */,

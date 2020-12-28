@@ -9,13 +9,17 @@
 import UIKit
 
 protocol SearchRoutingLogic {
-
+    func presentAlbumViewController(albumId: Int)
 }
 
-class SearchRouter: NSObject, SearchRoutingLogic {
+class SearchRouter: SearchRoutingLogic {
 
   weak var viewController: SearchViewController?
   
   // MARK: Routing
-  
+    public func presentAlbumViewController(albumId: Int) {
+
+        let vc = AlbumViewController(idAlbum: albumId)
+        viewController?.present(vc, animated: true)
+    }
 }

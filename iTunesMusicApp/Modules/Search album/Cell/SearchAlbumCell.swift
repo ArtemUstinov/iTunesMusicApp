@@ -21,8 +21,8 @@ class SearchAlbumCell: UITableViewCell {
     static let cellIdentifier = "SearchAlbumCell"
     
     //MARK: - Private properties:
-    private let coverOfAlbum: CoverImageView = {
-        let image = CoverImageView()
+    private let coverOfAlbum: CachedImageView = {
+        let image = CachedImageView()
         image.contentMode = .scaleToFill
         return image
     }()
@@ -59,9 +59,8 @@ class SearchAlbumCell: UITableViewCell {
     
     //MARK: - Public methods:
     func configureCell(with album: SearchCellViewModel?) {
-        
-        coverOfAlbum.fetchImage(from:
-            album?.coverUrlString ?? "")
+
+        coverOfAlbum.setImage(url: album?.coverUrlString, placeholder: #imageLiteral(resourceName: "album-art-empty"))
         albumNameLabel.text = album?.albumName
         artistNameLabel.text = album?.artistName
         priceAlbumLabel.text = "\(album?.priceOfAlbum ?? 0)$"

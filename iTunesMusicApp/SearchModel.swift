@@ -8,6 +8,6 @@
 
 struct SearchModel<T: Decodable>: Decodable {
     let resultCount: Int?
-    let  results: [T]?
+    let results: [T]?
 }
 
