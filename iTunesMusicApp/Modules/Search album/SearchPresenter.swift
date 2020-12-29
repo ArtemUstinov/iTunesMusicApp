@@ -21,8 +21,8 @@ class SearchPresenter: SearchPresentationLogic {
     func presentData(response: Search.Model.Response.ResponseType) {
         
         switch response {
-        case .some:
-            print("Some...")
+        case .presentFooterView:
+            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displayFooterView)
         case .presentSearchData(let resultAlbums):
             
             let albums = resultAlbums?.map({ album in
@@ -34,12 +34,13 @@ class SearchPresenter: SearchPresentationLogic {
     }
     
     //MARK: - Private methods:
-    private func getSearchCellViewModel(from album: Album?) -> CellSearchViewModel.Cell {
+    private func getSearchCellViewModel(from album: Track?) -> CellSearchViewModel.Cell {
         
         CellSearchViewModel.Cell(coverUrlString: album?.albumPicture,
-                           albumName: album?.collectionName,
-                           artistName: album?.artistName,
-                           priceOfAlbum: album?.collectionPrice,
-                           collectionId: album?.collectionId)
+                                 albumName: album?.collectionName,
+                                 artistName: album?.artistName,
+                                 trackName: album?.trackName,
+                                 trackPrice: album?.trackPrice,
+                                 currency: album?.currency)
     }
 }

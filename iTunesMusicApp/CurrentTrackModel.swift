@@ -1,27 +1,31 @@
 //
-//  AlbumModel.swift
+//  TrackModel.swift
 //  iTunesMusicApp
 //
 //  Created by Артём Устинов on 24.12.2020.
 //  Copyright © 2020 Artem Ustinov. All rights reserved.
 //
 
-struct Album: Decodable {
+struct CurrentTrack: Decodable {
     let wrapperType: String?
     let artistName: String?
     let collectionName: String?
-    let collectionType: String?
+    let trackName: String?
     let collectionId: Int?
-    let collectionPrice: Double?
     let albumPicture: String?
+    let trackPrice: Double?
+    let collectionPrice: Double?
+    let currency: String?
     
     enum CodingKeys: String, CodingKey {
         case wrapperType
         case artistName
         case collectionName
-        case collectionType
+        case trackName
         case collectionId
-        case collectionPrice
         case albumPicture = "artworkUrl100"
+        case trackPrice
+        case collectionPrice
+        case currency
     }
 }

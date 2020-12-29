@@ -28,7 +28,7 @@ class AlbumPresenter: AlbumPresentationLogic {
     }
   }
     
-    private func getTrackViewModel(for tracks: Track?) -> TracksViewModel.Track {
+    private func getTrackViewModel(for tracks: CurrentTrack?) -> TracksViewModel.Track {
         
         TracksViewModel.Track(artistName: tracks?.artistName,
                               albumName: tracks?.collectionName,

@@ -18,7 +18,7 @@ enum SelectedAlbum {
     }
     struct Response {
       enum ResponseType {
-        case presentAlbum(resultAlbum: [Track]?)
+        case presentAlbum(resultAlbum: [CurrentTrack]?)
       }
     }
     struct ViewModel {

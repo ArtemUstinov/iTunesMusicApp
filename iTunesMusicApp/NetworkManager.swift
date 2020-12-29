@@ -12,13 +12,18 @@ class NetworkManager {
     
     private enum ApiUrl {
         static let search =
-        "https://itunes.apple.com/search?term=%@&entity=album&sorted=recent"
+        "https://itunes.apple.com/search?term=%@&media=music"
         static let album =
         "https://itunes.apple.com/lookup?id=%@&entity=song&limit=200"
     }
+    
+    func fetchData<T>(search text: String,
+                      completion: @escaping(Result<[T]?, Error>) -> Void) {
+        
+    }
 
     func fetchSearchData(search text: String,
-                         completion: @escaping(Result<[Album]?, Error>) -> Void) {
+                         completion: @escaping(Result<[Track]?, Error>) -> Void) {
         
         let urlString = String(format: ApiUrl.search, text)
 
@@ -33,7 +38,7 @@ class NetworkManager {
             guard let data = data else { return }
             
             do {
-                let albums = try JSONDecoder().decode(SearchModel<Album>.self,
+                let albums = try JSONDecoder().decode(SearchModel<Track>.self,
                                                       from: data)
                 completion(.success(albums.results))
             } catch let error {
@@ -44,7 +49,7 @@ class NetworkManager {
     }
     
     func fetchDataAlbum(id album: Int?,
-                         completion: @escaping(Result<[Track]?, Error>) -> Void) {
+                         completion: @escaping(Result<[CurrentTrack]?, Error>) -> Void) {
         
         let urlString = String(format: ApiUrl.album, String(album ?? 0))
 
@@ -59,7 +64,7 @@ class NetworkManager {
             guard let data = data else { return }
             
             do {
-                let album = try JSONDecoder().decode(SearchModel<Track>.self,
+                let album = try JSONDecoder().decode(SearchModel<CurrentTrack>.self,
                                                       from: data)
                 completion(.success(album.results))
             } catch let error {

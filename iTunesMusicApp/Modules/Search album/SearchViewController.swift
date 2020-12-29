@@ -22,6 +22,8 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     private let searchController =
         UISearchController(searchResultsController: nil)
     
+    private lazy var footerView = FooterView()
+    
     private var albums = CellSearchViewModel(cells: [])
     
     private var timer: Timer?
@@ -47,35 +49,39 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
         
         switch viewModel {
-        case .some:
-            print("Some...")
+        case .displayFooterView:
+            footerView.showLoaderIndicator()
         case .displaySearchData(let searchViewModel):
             self.albums = searchViewModel
             print("Search response!")
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.footerView.hideLoaderIndicator()
             }
         }
     }
     
     // MARK: Setup
     private func setup() {
-        let viewController        = self
-        let interactor            = SearchInteractor()
-        let presenter             = SearchPresenter()
-        let router                = SearchRouter()
+        let viewController = self
+        let interactor = SearchInteractor()
+        let presenter = SearchPresenter()
+        let router = SearchRouter()
         viewController.interactor = interactor
-        viewController.router     = router
-        interactor.presenter      = presenter
-        presenter.viewController  = viewController
-        router.viewController     = viewController
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
     }
     
     //MARK: - Private methods:
     private func setupTableView() {
-        tableView.register(SearchAlbumCell.self,
-                           forCellReuseIdentifier: SearchAlbumCell.cellIdentifier)
+        tableView.register(SearchTrackCell.self,
+                           forCellReuseIdentifier: SearchTrackCell.cellIdentifier)
         
+        tableView.tableFooterView = footerView
+        
+        tableView.rowHeight = 84
         tableView.backgroundColor = .secondarySystemBackground
     }
     
@@ -100,8 +106,8 @@ extension SearchViewController {
                                  cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell =
-            tableView.dequeueReusableCell(withIdentifier: SearchAlbumCell.cellIdentifier,
-                                               for: indexPath) as? SearchAlbumCell else {
+            tableView.dequeueReusableCell(withIdentifier: SearchTrackCell.cellIdentifier,
+                                               for: indexPath) as? SearchTrackCell else {
                                                 fatalError("Error! Not cell")
         }
         
@@ -113,20 +119,35 @@ extension SearchViewController {
     }
     
     override func tableView(_ tableView: UITableView,
-                            heightForRowAt indexPath: IndexPath) -> CGFloat {
-        64
+                            viewForHeaderInSection section: Int) -> UIView? {
+                
+        let label = UILabel()
+        label.text = "Please enter search term above"
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+       
+        (albums.cells?.count ?? 0) > 0 ? 0 : UIScreen.main.bounds.height / 2
     }
     
     override func tableView(_ tableView: UITableView,
                                  didSelectRowAt indexPath: IndexPath) {
         
-        let selectedAlbum = albums.cells?[indexPath.row].collectionId ?? 0
-        performTo(AlbumViewController(idAlbum: selectedAlbum))
+        let selectedTrack = getFilteredAlbums(indexPath: indexPath)
+        print("selected track name:", selectedTrack!.trackName)
+ 
+        guard let window = UIApplication.shared.windows.first else { return }
+        let trackDetailView = TrackDetailView(frame: window.frame)
+        window.addSubview(trackDetailView)
     }
 }
 
 
-//MARK: - UISearch bar delegate
+//MARK: - UISearchBarDelegate
 extension SearchViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -137,10 +158,13 @@ extension SearchViewController: UISearchResultsUpdating {
     private func filterContentForSearchText(_ searchText: String) {
         
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.4,
-                                     repeats: false,
-                                     block: { [weak self] _ in
-                                        self?.interactor?.makeRequest(request: Search.Model.Request.RequestType.getSearchData(searchText: searchText))
+        timer = Timer.scheduledTimer(
+            withTimeInterval: 0.4,
+            repeats: false,
+            block: { [weak self] _ in
+                self?.interactor?
+                    .makeRequest(request: Search.Model.Request
+                        .RequestType.getSearchData(searchText: searchText))
         })
     }
     
@@ -149,7 +173,7 @@ extension SearchViewController: UISearchResultsUpdating {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder =
-        "Album or singer"
+        "Name of track"
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }

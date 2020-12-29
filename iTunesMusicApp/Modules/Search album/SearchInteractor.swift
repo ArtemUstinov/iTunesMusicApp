@@ -28,15 +28,14 @@ class SearchInteractor: SearchBusinessLogic {
         }
         
         switch request {
-        case .some:
-            print("Some...")
-        case .getSearchData(let searchText):            
-            self.getSearchData(with: searchText)
+        case .getSearchData(let searchText):
+            presenter?.presentData(response: Search.Model.Response.ResponseType.presentFooterView)
+            self.presentSearchData(with: searchText)
         }
     }
     
     //MARK: - Private methods:
-    private func getSearchData(with text: String) {
+    private func presentSearchData(with text: String) {
         networkManager.fetchSearchData(search: text) {
             [weak self] resultData in
             switch resultData {

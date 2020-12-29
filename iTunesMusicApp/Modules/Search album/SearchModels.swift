@@ -13,19 +13,18 @@ enum Search {
   enum Model {
     struct Request {
       enum RequestType {
-        case some
         case getSearchData(searchText: String)
       }
     }
     struct Response {
       enum ResponseType {
-        case some
-        case presentSearchData(resultSearch: [Album]?)
+        case presentFooterView
+        case presentSearchData(resultSearch: [Track]?)
       }
     }
     struct ViewModel {
       enum ViewModelData {
-        case some
+        case displayFooterView
         case displaySearchData(searchViewModel: CellSearchViewModel)
       }
     }
@@ -37,9 +36,10 @@ struct CellSearchViewModel {
         let coverUrlString: String?
         let albumName: String?
         let artistName: String?
-        let priceOfAlbum: Double?
-        let collectionId: Int?
-    } 
+        let trackName: String?
+        let trackPrice: Double?
+        let currency: String?
+    }
     
     let cells: [Cell]?
 }
