@@ -27,11 +27,11 @@ class CoverImageView: UIImageView {
         }
 
         networkManager.fetchImageData(from: url, completion: {
-            [unowned self] (imageData, response) in
+            [weak self] (imageData, response) in
             DispatchQueue.main.async {
-                self.image = UIImage(data: imageData)
+                self?.image = UIImage(data: imageData)
             }
-            self.saveImageToCache(from: imageData, and: response)
+            self?.saveImageToCache(from: imageData, and: response)
         })
     }
     
@@ -51,5 +51,6 @@ class CoverImageView: UIImageView {
         let urlRequest = URLRequest(url: url)
         let cachedResponse = CachedURLResponse(response: response, data: data)
         URLCache.shared.storeCachedResponse(cachedResponse, for: urlRequest)
+        print("Save image")
     }
 }

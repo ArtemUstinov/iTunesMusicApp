@@ -7,10 +7,29 @@
 //
 
 import UIKit
+import AVKit
+
+protocol TrackMovingDelegate: class {
+    func moveBackForPreviousTrack() -> CellSearchViewModel.Cell?
+    func moveForwardForNextTrack() -> CellSearchViewModel.Cell?
+}
 
 class TrackDetailView: UIView {
     
-    //MARK: StackViews
+    //MARK: - Public properties:
+    weak var trackMovingDelegate: TrackMovingDelegate?
+    
+    weak var tabBarDelegate: TabBarControllerDelegate?
+    
+    //MARK: - Private properties:
+    private let avPlayer: AVPlayer = {
+        let avPlayer = AVPlayer()
+        avPlayer.volume = 0.5
+        avPlayer.automaticallyWaitsToMinimizeStalling = false
+        return avPlayer
+    }()
+    
+    //MARK: - StackViews
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -57,7 +76,7 @@ class TrackDetailView: UIView {
         return stackView
     }()
     
-    //MARK: UIButtons
+    //MARK: - UIButtons
     private let dragDownButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "Drag Down"), for: .normal)
@@ -82,29 +101,19 @@ class TrackDetailView: UIView {
     }()
     
     private let playPauseButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let playButton: UIButton = {
-        let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "play"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let pauseButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
+        button.tintColor = .darkText
         button.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    //MARK: UIImageViews
-    private let trackImage: UIImageView = {
-        let image = UIImageView()
-        image.backgroundColor = .red
+    //MARK: - UIImageViews
+    private let trackImage: CoverImageView = {
+        let image = CoverImageView()
+        image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = 10
+        image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -123,7 +132,7 @@ class TrackDetailView: UIView {
         return image
     }()
     
-    //MARK: UILabels
+    //MARK: - UILabels
     private let currentTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -161,16 +170,16 @@ class TrackDetailView: UIView {
         return label
     }()
     
-    //MARK: UISliders
+    //MARK: - UISliders
     private let currentTimeSlider: UISlider = {
         let slider = UISlider()
-        slider.value = slider.minimumValue
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
     
     private let volumeSlider: UISlider = {
         let slider = UISlider()
+        slider.value = 0.5
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
@@ -181,6 +190,9 @@ class TrackDetailView: UIView {
         
         addTargets()
         
+        monitorStartTimeTrack()
+        observePlayerCurrentTime()
+        
         setupSubview()
         autoLayoutMainStackView()
         autoLayoutTrackTimeStackView()
@@ -188,37 +200,168 @@ class TrackDetailView: UIView {
         autoLayoutTrackNameStackView()
         autoLayoutMusicButtonsStackView()
         autoLayoutVolumeStackView()
+        
+    }
+    
+    //MARK: - SetupUI
+    func set(cellViewModel: CellSearchViewModel.Cell) {
+        
+        getThumbnailImage(withScale: 0.8)
+        
+        trackNameLabel.text = cellViewModel.trackName
+        artistNameLabel.text = cellViewModel.artistName
+        
+        let convertImageSize =
+            cellViewModel.trackPicture?.replacingOccurrences(of: "100x100",
+                                                             with: "600x600")
+        trackImage.fetchImage(from: convertImageSize ?? "")
+        
+        playTrack(from: cellViewModel.previewUrl)
+    }
+    
+    private func enlargeTrackImage() {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.trackImage.transform = .identity
+        }, completion: nil)
+    }
+    
+    private func reduceTrackImage() {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.getThumbnailImage(withScale: 0.8)
+        }, completion: nil)
+    }
+    
+    private func getThumbnailImage(withScale: CGFloat) {
+        let scale = withScale
+        trackImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+    }
+    
+    //MARK: - Setup AVPlayer
+    private func playTrack(from previewUrlTrack: String?) {
+        
+        guard let url = URL(string: previewUrlTrack ?? "") else { return }
+        let playerItem = AVPlayerItem(url: url)
+        avPlayer.replaceCurrentItem(with: playerItem)
+        avPlayer.play()
+    }
+    
+    private func monitorStartTimeTrack() {
+        
+        let time = CMTimeMake(value: 1, timescale: 10)
+        let times = [NSValue(time: time)]
+        avPlayer.addBoundaryTimeObserver(forTimes: times,
+                                         queue: .main) { [weak self] in
+                                            self?.enlargeTrackImage()
+        }
+    }
+    
+    private func observePlayerCurrentTime() {
+        
+        let interval = CMTimeMake(value: 1, timescale: 10)
+        avPlayer.addPeriodicTimeObserver(forInterval: interval, queue: .main) {
+            [weak self] time in
+            self?.currentTimeLabel.text = time.toDisplayString()
+            
+            guard let durationTime = self?.avPlayer.currentItem?.duration else {
+                return
+            }
+            let currentDurationTime = (durationTime - time).toDisplayString()
+            self?.durationTimeLabel.text = "-\(currentDurationTime)"
+            self?.updateCurrentTimeSlider()
+        }
+    }
+    
+    private func updateCurrentTimeSlider() {
+        
+        let currentTimeSeconds = CMTimeGetSeconds(avPlayer.currentTime())
+        let durationSeconds = CMTimeGetSeconds(avPlayer.currentItem?.duration
+            ?? CMTimeMake(value: 1, timescale: 1))
+        let percentage = currentTimeSeconds / durationSeconds
+        currentTimeSlider.value = Float(percentage)
     }
     
     //MARK: Targets
     private func addTargets() {
         dragDownButton.addTarget(self,
-        action: #selector(dragDownButtonTapped),
-        for: .touchUpInside)
+                                 action: #selector(dragDownButtonTapped),
+                                 for: .touchUpInside)
+        
+        playPauseButton.addTarget(self,
+                                  action: #selector(playPauseButtonTapped),
+                                  for: .touchUpInside)
+        
+        currentTimeSlider.addTarget(self,
+                                    action: #selector(handleCurrentTimeSlider),
+                                    for: .valueChanged)
+        
+        volumeSlider.addTarget(self,
+                               action: #selector(handleVolumeSlider),
+                               for: .valueChanged)
+        
+        previousTrackButton.addTarget(self,
+                                      action: #selector(previousTrackButtonTapped),
+                                      for: .touchUpInside)
+        
+        nextTrackButton.addTarget(self,
+                                  action: #selector(nextTrackButtonTapped),
+                                  for: .touchUpInside)
     }
     
-    //MARK: @objc Actions
+    //MARK: - @objc Actions
     @objc private func dragDownButtonTapped() {
-        removeFromSuperview()
+        tabBarDelegate?.setMinimizedTrackDetailView()
+//        removeFromSuperview()
     }
     
     @objc private func handleCurrentTimeSlider() {
-        
+        let percentage = currentTimeSlider.value
+        guard let duration = avPlayer.currentItem?.duration else { return }
+        let durationInSeconds = CMTimeGetSeconds(duration)
+        let seekTimeSeconds = Float64(percentage) * durationInSeconds
+        let seekTime = CMTimeMakeWithSeconds(seekTimeSeconds,
+                                             preferredTimescale: 1)
+        avPlayer.seek(to: seekTime)
+    }
+    
+    @objc private func handleVolumeSlider() {
+        avPlayer.volume = volumeSlider.value
     }
     
     @objc private func previousTrackButtonTapped() {
-        
+        guard let previousTrack =
+            trackMovingDelegate?.moveBackForPreviousTrack() else { return }
+        set(cellViewModel: previousTrack)
     }
     
     @objc private func nextTrackButtonTapped() {
-        
+        guard let nextTrack =
+            trackMovingDelegate?.moveForwardForNextTrack() else { return }
+        set(cellViewModel: nextTrack)
     }
     
     @objc private func playPauseButtonTapped() {
-        
+        if avPlayer.timeControlStatus == .paused {
+            avPlayer.play()
+            playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            enlargeTrackImage()
+        } else {
+            avPlayer.pause()
+            playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            reduceTrackImage()
+        }
     }
     
-    //MARK: SetupAutoLayout
+    //MARK: - SetupAutoLayout
     private func setupSubview() {
         backgroundColor = .white
         addSubview(mainStackView)
@@ -272,7 +415,7 @@ class TrackDetailView: UIView {
         mainStackView.addArrangedSubview(musicButtonsStackView)
         
         musicButtonsStackView.addArrangedSubview(previousTrackButton)
-        musicButtonsStackView.addArrangedSubview(playButton)
+        musicButtonsStackView.addArrangedSubview(playPauseButton)
         musicButtonsStackView.addArrangedSubview(nextTrackButton)
     }
     

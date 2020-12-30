@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchCellViewModel {
-    var coverUrlString: String? { get }
+    var trackPicture: String? { get }
     var albumName: String? { get }
     var artistName: String? { get }
     var trackName: String? { get }
@@ -68,12 +68,12 @@ class SearchTrackCell: UITableViewCell {
     }
     
     //MARK: - Public methods:
-    func configureCell(with album: SearchCellViewModel?) {
+    func configureCell(with album: SearchCellViewModel) {
         
-        coverOfAlbum.fetchImage(from: album?.coverUrlString ?? "")
-        trackNameLabel.text = album?.trackName
-        artistNameLabel.text = album?.artistName
-        albumNameLabel.text = album?.albumName
+        coverOfAlbum.fetchImage(from: album.trackPicture ?? "")
+        trackNameLabel.text = album.trackName
+        artistNameLabel.text = album.artistName
+        albumNameLabel.text = album.albumName
 //        priceAlbumLabel.text = "\(album?.trackPrice ?? 0) \(album?.currency ?? "")"
         
         setupSubviews()

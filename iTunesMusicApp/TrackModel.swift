@@ -13,6 +13,7 @@ struct Track: Decodable {
     let artistName: String?
     let collectionName: String?
     let trackName: String?
+    let previewUrl: String?
     let albumPicture: String?
     let trackPrice: Double?
     let currency: String?
@@ -24,6 +25,7 @@ struct Track: Decodable {
         case artistName
         case collectionName
         case trackName
+        case previewUrl
         case albumPicture = "artworkUrl100"
         case trackPrice
         case currency

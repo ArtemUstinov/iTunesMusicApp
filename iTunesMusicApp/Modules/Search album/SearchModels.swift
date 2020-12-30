@@ -33,10 +33,11 @@ enum Search {
 
 struct CellSearchViewModel {
     struct Cell: SearchCellViewModel {
-        let coverUrlString: String?
-        let albumName: String?
         let artistName: String?
+        let albumName: String?
         let trackName: String?
+        let previewUrl: String?
+        let trackPicture: String?
         let trackPrice: Double?
         let currency: String?
     }

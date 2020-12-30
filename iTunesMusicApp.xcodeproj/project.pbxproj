@@ -18,6 +18,7 @@
 		AC26DCC92594F78400B1657B /* CurrentTrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC82594F78400B1657B /* CurrentTrackModel.swift */; };
 		AC26DCCB2594FB2D00B1657B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */; };
 		AC26DCCF2595065900B1657B /* CoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCCE2595065900B1657B /* CoverImageView.swift */; };
+		AC5908C5259BE6CF00B5CD91 /* CMTime + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5908C4259BE6CF00B5CD91 /* CMTime + Extension.swift */; };
 		ACC83CFE25960629008DDA3A /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF725960629008DDA3A /* SearchPresenter.swift */; };
 		ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF825960629008DDA3A /* SearchWorker.swift */; };
 		ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF925960629008DDA3A /* SearchRouter.swift */; };
@@ -49,6 +50,7 @@
 		AC26DCC82594F78400B1657B /* CurrentTrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrackModel.swift; sourceTree = "<group>"; };
 		AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AC26DCCE2595065900B1657B /* CoverImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageView.swift; sourceTree = "<group>"; };
+		AC5908C4259BE6CF00B5CD91 /* CMTime + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime + Extension.swift"; sourceTree = "<group>"; };
 		ACC83CF725960629008DDA3A /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		ACC83CF825960629008DDA3A /* SearchWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
 		ACC83CF925960629008DDA3A /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
@@ -100,7 +102,7 @@
 				AC26DC9A25935DEF00B1657B /* SceneDelegate.swift */,
 				AC26DCA625935DF500B1657B /* Info.plist */,
 				AC26DCA125935DF500B1657B /* Assets.xcassets */,
-				AC26DCCC2595062900B1657B /* Extensions for UI */,
+				AC26DCCC2595062900B1657B /* Helpers */,
 				AC26DCC02594F68600B1657B /* Service */,
 				AC26DCBB2594F18B00B1657B /* TabBar */,
 				AC26DCB0259362B000B1657B /* LibraryViewController.swift */,
@@ -223,20 +225,13 @@
 			name = NetworkManager;
 			sourceTree = "<group>";
 		};
-		AC26DCCC2595062900B1657B /* Extensions for UI */ = {
-			isa = PBXGroup;
-			children = (
-				AC26DCCD2595064100B1657B /* View */,
-			);
-			name = "Extensions for UI";
-			sourceTree = "<group>";
-		};
-		AC26DCCD2595064100B1657B /* View */ = {
+		AC26DCCC2595062900B1657B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				AC26DCCE2595065900B1657B /* CoverImageView.swift */,
+				AC5908C4259BE6CF00B5CD91 /* CMTime + Extension.swift */,
 			);
-			name = View;
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		ACC83D07259653C8008DDA3A /* Cell */ = {
@@ -349,6 +344,7 @@
 				ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */,
 				ACC83D0125960629008DDA3A /* SearchModels.swift in Sources */,
 				ACF22D642597E452007DC991 /* AlbumWorker.swift in Sources */,
+				AC5908C5259BE6CF00B5CD91 /* CMTime + Extension.swift in Sources */,
 				AC26DCCB2594FB2D00B1657B /* NetworkManager.swift in Sources */,
 				AC26DCB1259362B000B1657B /* LibraryViewController.swift in Sources */,
 				AC26DCC72594F76A00B1657B /* TrackModel.swift in Sources */,

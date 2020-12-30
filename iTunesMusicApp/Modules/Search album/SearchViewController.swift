@@ -18,6 +18,8 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     var interactor: SearchBusinessLogic?
     var router: (NSObjectProtocol & SearchRoutingLogic)?
     
+    weak var tabBarDelegate: TabBarControllerDelegate?
+    
     //MARK: - Private properties:    
     private let searchController =
         UISearchController(searchResultsController: nil)
@@ -27,7 +29,7 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     private var albums = CellSearchViewModel(cells: [])
     
     private var timer: Timer?
-        
+    
     private var isFiltering: Bool {
         !(searchController.searchBar.text?.isEmpty ?? false)
     }
@@ -38,7 +40,8 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         
         setupTableView()
         setup()
-        setupSearchController()     
+        setupSearchController()
+        
     }
     
     override func loadView() {
@@ -94,21 +97,21 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
     // MARK: Routing
 }
 
-    // MARK: - UITableViewDataSource, UITableViewDelegate
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension SearchViewController {
     override func tableView(_ tableView: UITableView,
-                                 numberOfRowsInSection section: Int) -> Int {
+                            numberOfRowsInSection section: Int) -> Int {
         
         isFiltering ? (albums.cells?.count ?? 0) : 0
     }
     
     override func tableView(_ tableView: UITableView,
-                                 cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell =
             tableView.dequeueReusableCell(withIdentifier: SearchTrackCell.cellIdentifier,
-                                               for: indexPath) as? SearchTrackCell else {
-                                                fatalError("Error! Not cell")
+                                          for: indexPath) as? SearchTrackCell else {
+                                            fatalError("Error! Not cell")
         }
         
         let result = getFilteredAlbums(indexPath: indexPath)
@@ -120,7 +123,7 @@ extension SearchViewController {
     
     override func tableView(_ tableView: UITableView,
                             viewForHeaderInSection section: Int) -> UIView? {
-                
+        
         let label = UILabel()
         label.text = "Please enter search term above"
         label.textAlignment = .center
@@ -130,25 +133,28 @@ extension SearchViewController {
     
     override func tableView(_ tableView: UITableView,
                             heightForHeaderInSection section: Int) -> CGFloat {
-       
-        (albums.cells?.count ?? 0) > 0 ? 0 : UIScreen.main.bounds.height / 2
+        
+        let halfScreen = UIScreen.main.bounds.height / 2
+        return (albums.cells?.count ?? 0) > 0 ? 0 : halfScreen
     }
     
     override func tableView(_ tableView: UITableView,
-                                 didSelectRowAt indexPath: IndexPath) {
+                            didSelectRowAt indexPath: IndexPath) {
         
         let selectedTrack = getFilteredAlbums(indexPath: indexPath)
-        print("selected track name:", selectedTrack!.trackName)
- 
-        guard let window = UIApplication.shared.windows.first else { return }
-        let trackDetailView = TrackDetailView(frame: window.frame)
-        window.addSubview(trackDetailView)
+        tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: selectedTrack)
+        
+//        guard let window = UIApplication.shared.windows.first else { return }
+//        let trackDetailView = TrackDetailView(frame: window.frame)
+//        trackDetailView.trackMovingDelegate = self
+//        trackDetailView.set(cellViewModel: selectedTrack)
+//        window.addSubview(trackDetailView)
     }
 }
 
 
 //MARK: - UISearchBarDelegate
-extension SearchViewController: UISearchResultsUpdating {
+extension SearchViewController: UISearchResultsUpdating  {
     
     func updateSearchResults(for searchController: UISearchController) {
         
@@ -178,8 +184,47 @@ extension SearchViewController: UISearchResultsUpdating {
         definesPresentationContext = true
     }
     
-    private func getFilteredAlbums(indexPath: IndexPath) -> CellSearchViewModel.Cell? {
+    private func getFilteredAlbums(indexPath: IndexPath) -> CellSearchViewModel.Cell {
         
-        isFiltering ? albums.cells?[indexPath.item] : nil
+        guard let isFiltering = isFiltering ? albums.cells?[indexPath.item] : nil else {
+            fatalError("Don't have sorted search")
+        }
+        return isFiltering
+    }
+}
+
+extension SearchViewController: TrackMovingDelegate {
+    
+    private func getTrack(isForwardTrack: Bool) -> CellSearchViewModel.Cell? {
+        guard let indexPath =
+            tableView.indexPathForSelectedRow else { return nil }
+        var nextIndexPath: IndexPath!
+        if isForwardTrack {
+            nextIndexPath = IndexPath(row: indexPath.row + 1,
+                                      section: indexPath.section)
+            nextIndexPath.row == albums.cells?.count
+                ? nextIndexPath.row = 0
+                : nil
+        } else {
+            nextIndexPath = IndexPath(row: indexPath.row - 1,
+                                      section: indexPath.section)
+            nextIndexPath.row == -1
+                ? nextIndexPath.row = (albums.cells?.count ?? 0) - 1
+                : nil
+        }
+        tableView.selectRow(at: nextIndexPath,
+                            animated: true,
+                            scrollPosition: .middle)
+        
+        let cellSearchViewModel = albums.cells?[nextIndexPath.row]
+        return cellSearchViewModel
+    }
+    
+    func moveBackForPreviousTrack() -> CellSearchViewModel.Cell? {
+        getTrack(isForwardTrack: false)
+    }
+    
+    func moveForwardForNextTrack() -> CellSearchViewModel.Cell? {
+        getTrack(isForwardTrack: true)
     }
 }
