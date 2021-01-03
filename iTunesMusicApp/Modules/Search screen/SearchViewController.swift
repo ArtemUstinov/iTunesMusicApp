@@ -44,9 +44,6 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         
     }
     
-    override func loadView() {
-        super.loadView()
-    }
     
     //MARK: - Public methods:
     func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
@@ -86,12 +83,6 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         
         tableView.rowHeight = 84
         tableView.backgroundColor = .secondarySystemBackground
-    }
-    
-    private func performTo(_ viewController: UIViewController) {
-        let detailAlbumVC = viewController
-        detailAlbumVC.modalPresentationStyle = .popover
-        present(detailAlbumVC, animated: true)
     }
     
     // MARK: Routing
@@ -143,12 +134,6 @@ extension SearchViewController {
         
         let selectedTrack = getFilteredAlbums(indexPath: indexPath)
         tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: selectedTrack)
-        
-//        guard let window = UIApplication.shared.windows.first else { return }
-//        let trackDetailView = TrackDetailView(frame: window.frame)
-//        trackDetailView.trackMovingDelegate = self
-//        trackDetailView.set(cellViewModel: selectedTrack)
-//        window.addSubview(trackDetailView)
     }
 }
 

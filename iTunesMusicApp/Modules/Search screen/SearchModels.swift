@@ -31,8 +31,9 @@ enum Search {
   }
 }
 
-struct CellSearchViewModel {
-    struct Cell: SearchCellViewModel {
+struct CellSearchViewModel: Codable {
+    struct Cell: SearchCellViewModelProtocol, Codable {
+        let trackId: Int?
         let artistName: String?
         let albumName: String?
         let trackName: String?

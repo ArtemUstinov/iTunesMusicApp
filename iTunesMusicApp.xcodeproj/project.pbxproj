@@ -12,12 +12,18 @@
 		AC26DCA225935DF500B1657B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC26DCA125935DF500B1657B /* Assets.xcassets */; };
 		AC26DCA525935DF500B1657B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */; };
 		AC26DCAD2593600700B1657B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCAC2593600700B1657B /* TabBarController.swift */; };
-		AC26DCB1259362B000B1657B /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCB0259362B000B1657B /* LibraryViewController.swift */; };
 		AC26DCC52594F6CB00B1657B /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC42594F6CB00B1657B /* SearchModel.swift */; };
 		AC26DCC72594F76A00B1657B /* TrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC62594F76A00B1657B /* TrackModel.swift */; };
-		AC26DCC92594F78400B1657B /* CurrentTrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCC82594F78400B1657B /* CurrentTrackModel.swift */; };
 		AC26DCCB2594FB2D00B1657B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */; };
 		AC26DCCF2595065900B1657B /* CoverImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC26DCCE2595065900B1657B /* CoverImageView.swift */; };
+		AC32E27525A0B89B000043C7 /* LibraryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E26E25A0B89B000043C7 /* LibraryPresenter.swift */; };
+		AC32E27625A0B89B000043C7 /* LibraryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E26F25A0B89B000043C7 /* LibraryWorker.swift */; };
+		AC32E27725A0B89B000043C7 /* LibraryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E27025A0B89B000043C7 /* LibraryRouter.swift */; };
+		AC32E27825A0B89B000043C7 /* LibraryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E27125A0B89B000043C7 /* LibraryModels.swift */; };
+		AC32E27925A0B89B000043C7 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E27225A0B89B000043C7 /* LibraryViewController.swift */; };
+		AC32E27A25A0B89B000043C7 /* LibraryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E27325A0B89B000043C7 /* LibraryInteractor.swift */; };
+		AC32E28125A0DB31000043C7 /* LibraryTrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E28025A0DB31000043C7 /* LibraryTrackCell.swift */; };
+		AC32E28425A1128B000043C7 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC32E28325A1128B000043C7 /* StorageManager.swift */; };
 		AC5908C5259BE6CF00B5CD91 /* CMTime + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5908C4259BE6CF00B5CD91 /* CMTime + Extension.swift */; };
 		ACC83CFE25960629008DDA3A /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF725960629008DDA3A /* SearchPresenter.swift */; };
 		ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF825960629008DDA3A /* SearchWorker.swift */; };
@@ -26,12 +32,6 @@
 		ACC83D0225960629008DDA3A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CFB25960629008DDA3A /* SearchViewController.swift */; };
 		ACC83D0325960629008DDA3A /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CFC25960629008DDA3A /* SearchInteractor.swift */; };
 		ACC83D0625963109008DDA3A /* SearchTrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83D0525963109008DDA3A /* SearchTrackCell.swift */; };
-		ACF22D632597E452007DC991 /* AlbumPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5C2597E452007DC991 /* AlbumPresenter.swift */; };
-		ACF22D642597E452007DC991 /* AlbumWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5D2597E452007DC991 /* AlbumWorker.swift */; };
-		ACF22D652597E452007DC991 /* AlbumRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5E2597E452007DC991 /* AlbumRouter.swift */; };
-		ACF22D662597E452007DC991 /* AlbumModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D5F2597E452007DC991 /* AlbumModels.swift */; };
-		ACF22D672597E452007DC991 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D602597E452007DC991 /* AlbumViewController.swift */; };
-		ACF22D682597E452007DC991 /* AlbumInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D612597E452007DC991 /* AlbumInteractor.swift */; };
 		ACF22D6C259A4668007DC991 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D6B259A4668007DC991 /* FooterView.swift */; };
 		ACF22D6F259A58D0007DC991 /* TrackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF22D6E259A58CF007DC991 /* TrackDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -44,12 +44,18 @@
 		AC26DCA425935DF500B1657B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC26DCA625935DF500B1657B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC26DCAC2593600700B1657B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		AC26DCB0259362B000B1657B /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		AC26DCC42594F6CB00B1657B /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		AC26DCC62594F76A00B1657B /* TrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackModel.swift; sourceTree = "<group>"; };
-		AC26DCC82594F78400B1657B /* CurrentTrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTrackModel.swift; sourceTree = "<group>"; };
 		AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AC26DCCE2595065900B1657B /* CoverImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageView.swift; sourceTree = "<group>"; };
+		AC32E26E25A0B89B000043C7 /* LibraryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenter.swift; sourceTree = "<group>"; };
+		AC32E26F25A0B89B000043C7 /* LibraryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryWorker.swift; sourceTree = "<group>"; };
+		AC32E27025A0B89B000043C7 /* LibraryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRouter.swift; sourceTree = "<group>"; };
+		AC32E27125A0B89B000043C7 /* LibraryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryModels.swift; sourceTree = "<group>"; };
+		AC32E27225A0B89B000043C7 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		AC32E27325A0B89B000043C7 /* LibraryInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryInteractor.swift; sourceTree = "<group>"; };
+		AC32E28025A0DB31000043C7 /* LibraryTrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTrackCell.swift; sourceTree = "<group>"; };
+		AC32E28325A1128B000043C7 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		AC5908C4259BE6CF00B5CD91 /* CMTime + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime + Extension.swift"; sourceTree = "<group>"; };
 		ACC83CF725960629008DDA3A /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		ACC83CF825960629008DDA3A /* SearchWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
@@ -58,12 +64,6 @@
 		ACC83CFB25960629008DDA3A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		ACC83CFC25960629008DDA3A /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
 		ACC83D0525963109008DDA3A /* SearchTrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTrackCell.swift; sourceTree = "<group>"; };
-		ACF22D5C2597E452007DC991 /* AlbumPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPresenter.swift; sourceTree = "<group>"; };
-		ACF22D5D2597E452007DC991 /* AlbumWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumWorker.swift; sourceTree = "<group>"; };
-		ACF22D5E2597E452007DC991 /* AlbumRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRouter.swift; sourceTree = "<group>"; };
-		ACF22D5F2597E452007DC991 /* AlbumModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModels.swift; sourceTree = "<group>"; };
-		ACF22D602597E452007DC991 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
-		ACF22D612597E452007DC991 /* AlbumInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumInteractor.swift; sourceTree = "<group>"; };
 		ACF22D6B259A4668007DC991 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		ACF22D6E259A58CF007DC991 /* TrackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,8 +105,7 @@
 				AC26DCCC2595062900B1657B /* Helpers */,
 				AC26DCC02594F68600B1657B /* Service */,
 				AC26DCBB2594F18B00B1657B /* TabBar */,
-				AC26DCB0259362B000B1657B /* LibraryViewController.swift */,
-				AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */,
+				AC32E28525A12EEB000043C7 /* Storyboards */,
 			);
 			path = iTunesMusicApp;
 			sourceTree = "<group>";
@@ -114,13 +113,13 @@
 		AC26DCB22594D85C00B1657B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				AC26DCB32594D86200B1657B /* Search album */,
-				AC26DCB82594F14200B1657B /* Album */,
+				AC26DCB32594D86200B1657B /* Search screen */,
+				AC26DCB82594F14200B1657B /* Library screen */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		AC26DCB32594D86200B1657B /* Search album */ = {
+		AC26DCB32594D86200B1657B /* Search screen */ = {
 			isa = PBXGroup;
 			children = (
 				ACF22D6D259A58C1007DC991 /* TrackDetailView */,
@@ -133,36 +132,29 @@
 				ACC83CF825960629008DDA3A /* SearchWorker.swift */,
 				ACC83CF925960629008DDA3A /* SearchRouter.swift */,
 			);
-			path = "Search album";
+			path = "Search screen";
 			sourceTree = "<group>";
 		};
-		AC26DCB82594F14200B1657B /* Album */ = {
+		AC26DCB82594F14200B1657B /* Library screen */ = {
 			isa = PBXGroup;
 			children = (
-				AC26DCBA2594F15C00B1657B /* View */,
-				AC26DCB92594F15600B1657B /* Controllers */,
+				AC26DCBA2594F15C00B1657B /* Cell */,
+				AC32E27225A0B89B000043C7 /* LibraryViewController.swift */,
+				AC32E27325A0B89B000043C7 /* LibraryInteractor.swift */,
+				AC32E26E25A0B89B000043C7 /* LibraryPresenter.swift */,
+				AC32E27125A0B89B000043C7 /* LibraryModels.swift */,
+				AC32E26F25A0B89B000043C7 /* LibraryWorker.swift */,
+				AC32E27025A0B89B000043C7 /* LibraryRouter.swift */,
 			);
-			path = Album;
+			path = "Library screen";
 			sourceTree = "<group>";
 		};
-		AC26DCB92594F15600B1657B /* Controllers */ = {
+		AC26DCBA2594F15C00B1657B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				ACF22D602597E452007DC991 /* AlbumViewController.swift */,
-				ACF22D612597E452007DC991 /* AlbumInteractor.swift */,
-				ACF22D5C2597E452007DC991 /* AlbumPresenter.swift */,
-				ACF22D5F2597E452007DC991 /* AlbumModels.swift */,
-				ACF22D5D2597E452007DC991 /* AlbumWorker.swift */,
-				ACF22D5E2597E452007DC991 /* AlbumRouter.swift */,
+				AC32E28025A0DB31000043C7 /* LibraryTrackCell.swift */,
 			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		AC26DCBA2594F15C00B1657B /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		AC26DCBB2594F18B00B1657B /* TabBar */ = {
@@ -170,7 +162,6 @@
 			children = (
 				AC26DCAC2593600700B1657B /* TabBarController.swift */,
 				AC26DCBC2594F24500B1657B /* Search Tab */,
-				AC26DCBD2594F25B00B1657B /* Library Tab */,
 			);
 			name = TabBar;
 			sourceTree = "<group>";
@@ -183,16 +174,10 @@
 			name = "Search Tab";
 			sourceTree = "<group>";
 		};
-		AC26DCBD2594F25B00B1657B /* Library Tab */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Library Tab";
-			sourceTree = "<group>";
-		};
 		AC26DCC02594F68600B1657B /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				AC32E28225A11278000043C7 /* Storage */,
 				AC26DCC12594F69600B1657B /* Network */,
 			);
 			name = Service;
@@ -202,7 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				AC26DCC22594F6A400B1657B /* Models */,
-				AC26DCC32594F6AD00B1657B /* NetworkManager */,
+				AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -212,17 +197,8 @@
 			children = (
 				AC26DCC42594F6CB00B1657B /* SearchModel.swift */,
 				AC26DCC62594F76A00B1657B /* TrackModel.swift */,
-				AC26DCC82594F78400B1657B /* CurrentTrackModel.swift */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		AC26DCC32594F6AD00B1657B /* NetworkManager */ = {
-			isa = PBXGroup;
-			children = (
-				AC26DCCA2594FB2D00B1657B /* NetworkManager.swift */,
-			);
-			name = NetworkManager;
 			sourceTree = "<group>";
 		};
 		AC26DCCC2595062900B1657B /* Helpers */ = {
@@ -232,6 +208,22 @@
 				AC5908C4259BE6CF00B5CD91 /* CMTime + Extension.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		AC32E28225A11278000043C7 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				AC32E28325A1128B000043C7 /* StorageManager.swift */,
+			);
+			name = Storage;
+			sourceTree = "<group>";
+		};
+		AC32E28525A12EEB000043C7 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				AC26DCA325935DF500B1657B /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		ACC83D07259653C8008DDA3A /* Cell */ = {
@@ -330,28 +322,28 @@
 			files = (
 				AC26DCAD2593600700B1657B /* TabBarController.swift in Sources */,
 				ACC83D0625963109008DDA3A /* SearchTrackCell.swift in Sources */,
+				AC32E27825A0B89B000043C7 /* LibraryModels.swift in Sources */,
 				AC26DCC52594F6CB00B1657B /* SearchModel.swift in Sources */,
 				ACF22D6F259A58D0007DC991 /* TrackDetailView.swift in Sources */,
-				ACF22D632597E452007DC991 /* AlbumPresenter.swift in Sources */,
 				ACC83D0225960629008DDA3A /* SearchViewController.swift in Sources */,
-				ACF22D682597E452007DC991 /* AlbumInteractor.swift in Sources */,
-				ACF22D652597E452007DC991 /* AlbumRouter.swift in Sources */,
-				AC26DCC92594F78400B1657B /* CurrentTrackModel.swift in Sources */,
-				ACF22D662597E452007DC991 /* AlbumModels.swift in Sources */,
 				AC26DCCF2595065900B1657B /* CoverImageView.swift in Sources */,
-				ACF22D672597E452007DC991 /* AlbumViewController.swift in Sources */,
 				ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */,
 				ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */,
+				AC32E28125A0DB31000043C7 /* LibraryTrackCell.swift in Sources */,
+				AC32E27925A0B89B000043C7 /* LibraryViewController.swift in Sources */,
 				ACC83D0125960629008DDA3A /* SearchModels.swift in Sources */,
-				ACF22D642597E452007DC991 /* AlbumWorker.swift in Sources */,
 				AC5908C5259BE6CF00B5CD91 /* CMTime + Extension.swift in Sources */,
 				AC26DCCB2594FB2D00B1657B /* NetworkManager.swift in Sources */,
-				AC26DCB1259362B000B1657B /* LibraryViewController.swift in Sources */,
+				AC32E27625A0B89B000043C7 /* LibraryWorker.swift in Sources */,
 				AC26DCC72594F76A00B1657B /* TrackModel.swift in Sources */,
 				ACC83D0325960629008DDA3A /* SearchInteractor.swift in Sources */,
+				AC32E27725A0B89B000043C7 /* LibraryRouter.swift in Sources */,
 				AC26DC9925935DEF00B1657B /* AppDelegate.swift in Sources */,
+				AC32E28425A1128B000043C7 /* StorageManager.swift in Sources */,
 				ACC83CFE25960629008DDA3A /* SearchPresenter.swift in Sources */,
 				AC26DC9B25935DEF00B1657B /* SceneDelegate.swift in Sources */,
+				AC32E27525A0B89B000043C7 /* LibraryPresenter.swift in Sources */,
+				AC32E27A25A0B89B000043C7 /* LibraryInteractor.swift in Sources */,
 				ACF22D6C259A4668007DC991 /* FooterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

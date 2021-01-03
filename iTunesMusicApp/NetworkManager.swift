@@ -21,12 +21,12 @@ class NetworkManager {
                       completion: @escaping(Result<[T]?, Error>) -> Void) {
         
     }
-
+    
     func fetchSearchData(search text: String,
                          completion: @escaping(Result<[Track]?, Error>) -> Void) {
         
         let urlString = String(format: ApiUrl.search, text)
-
+        
         guard let url = URL(string: urlString) else { return }
         
         URLSession.shared.dataTask(with: url) { (data, _, error) in
@@ -48,33 +48,8 @@ class NetworkManager {
         }.resume()
     }
     
-    func fetchDataAlbum(id album: Int?,
-                         completion: @escaping(Result<[CurrentTrack]?, Error>) -> Void) {
-        
-        let urlString = String(format: ApiUrl.album, String(album ?? 0))
-
-        guard let url = URL(string: urlString) else { return }
-        
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
-            if let error = error {
-                completion(.failure(error))
-                print(error.localizedDescription)
-                return
-            }
-            guard let data = data else { return }
-            
-            do {
-                let album = try JSONDecoder().decode(SearchModel<CurrentTrack>.self,
-                                                      from: data)
-                completion(.success(album.results))
-            } catch let error {
-                //completion Error
-                print(error.localizedDescription)
-            }
-        }.resume()
-    }
-    
-    func fetchImageData(from url: URL, completion: @escaping(Data, URLResponse) -> Void) {
+    func fetchImageData(from url: URL,
+                        completion: @escaping(Data, URLResponse) -> Void) {
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {

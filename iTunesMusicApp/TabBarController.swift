@@ -17,8 +17,7 @@ class TabBarController: UITabBarController {
     
     //MARK: - Private properties:
     private let searchVC = SearchViewController()
-    private let libraryVC =
-        LibraryViewController(collectionViewLayout: UICollectionViewFlowLayout())
+    private let libraryVC = LibraryViewController()
     
     private var minimizedTopAnchorConstraint: NSLayoutConstraint!
     private var maximizedTopAnchorConstraint: NSLayoutConstraint!
@@ -46,10 +45,10 @@ class TabBarController: UITabBarController {
         
         viewControllers = [
             generateViewController(rootViewController: searchVC,
-                                   image: UIImage(systemName: "magnifyingglass"),
+                                   image: #imageLiteral(resourceName: "search"),
                                    title: "Search"),
             generateViewController(rootViewController: libraryVC,
-                                   image: UIImage(systemName: "music.house"),
+                                   image: #imageLiteral(resourceName: "library"),
                                    title: "Library")
         ]
     }
@@ -99,8 +98,8 @@ extension TabBarController: TabBarControllerDelegate {
     
     func setMaximizedTrackDetailView(cellViewModel: CellSearchViewModel.Cell?) {
         
-        maximizedTopAnchorConstraint.isActive = true
         minimizedTopAnchorConstraint.isActive = false
+        maximizedTopAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.constant = 0
         bottomAnchorConstraint.constant = 0
         
@@ -112,6 +111,8 @@ extension TabBarController: TabBarControllerDelegate {
                        animations: {
                         self.view.layoutIfNeeded()
                         self.tabBar.alpha = 0
+                        self.trackDetailView.mainStackView.alpha = 1
+                        self.trackDetailView.miniPlayerView.alpha = 0
         }, completion: nil)
         
         guard let cellViewModel = cellViewModel else { return }
@@ -132,6 +133,8 @@ extension TabBarController: TabBarControllerDelegate {
                        animations: {
                         self.view.layoutIfNeeded()
                         self.tabBar.alpha = 1
+                        self.trackDetailView.mainStackView.alpha = 0
+                        self.trackDetailView.miniPlayerView.alpha = 1
         }, completion: nil)
     }
 }

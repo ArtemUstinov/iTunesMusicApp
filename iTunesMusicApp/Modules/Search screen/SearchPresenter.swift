@@ -36,7 +36,8 @@ class SearchPresenter: SearchPresentationLogic {
     //MARK: - Private methods:
     private func getSearchCellViewModel(from album: Track?) -> CellSearchViewModel.Cell {
         
-        CellSearchViewModel.Cell(artistName: album?.artistName,
+        CellSearchViewModel.Cell(trackId: album?.trackId,
+                                 artistName: album?.artistName,
                                  albumName: album?.collectionName,
                                  trackName: album?.trackName,
                                  previewUrl: album?.previewUrl,
