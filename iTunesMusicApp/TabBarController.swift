@@ -97,6 +97,9 @@ class TabBarController: UITabBarController {
 extension TabBarController: TabBarControllerDelegate {
     
     func setMaximizedTrackDetailView(cellViewModel: CellSearchViewModel.Cell?) {
+
+        /// Скрываем клавиатуру и первого респондера с серч бара
+        view.endEditing(true)
         
         minimizedTopAnchorConstraint.isActive = false
         maximizedTopAnchorConstraint.isActive = true

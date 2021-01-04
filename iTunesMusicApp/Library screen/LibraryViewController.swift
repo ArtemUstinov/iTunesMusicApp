@@ -98,11 +98,8 @@ class LibraryViewController: UIViewController, LibraryDisplayLogic {
         super.viewDidLoad()
         
         setupTableView()
-        
         addSubviews()
-        
         setupLayoutFooterStackView()
-        
     }
     
     //MARK: - Setup TableView
@@ -110,6 +107,9 @@ class LibraryViewController: UIViewController, LibraryDisplayLogic {
         
         tableView.delegate = self
         tableView.dataSource = self
+
+        /// Скрываем пустые ячейки если у нас нет данных
+        tableView.tableFooterView = UIView()
         
         tableView.rowHeight = 84
         view.backgroundColor = .white
