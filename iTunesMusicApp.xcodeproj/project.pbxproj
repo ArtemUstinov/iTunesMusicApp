@@ -110,15 +110,6 @@
 			path = iTunesMusicApp;
 			sourceTree = "<group>";
 		};
-		AC26DCB22594D85C00B1657B /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				AC26DCB32594D86200B1657B /* Search screen */,
-				AC26DCB82594F14200B1657B /* Library screen */,
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
 		AC26DCB32594D86200B1657B /* Search screen */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,17 +152,10 @@
 			isa = PBXGroup;
 			children = (
 				AC26DCAC2593600700B1657B /* TabBarController.swift */,
-				AC26DCBC2594F24500B1657B /* Search Tab */,
+				AC26DCB32594D86200B1657B /* Search screen */,
+				AC26DCB82594F14200B1657B /* Library screen */,
 			);
 			name = TabBar;
-			sourceTree = "<group>";
-		};
-		AC26DCBC2594F24500B1657B /* Search Tab */ = {
-			isa = PBXGroup;
-			children = (
-				AC26DCB22594D85C00B1657B /* Modules */,
-			);
-			name = "Search Tab";
 			sourceTree = "<group>";
 		};
 		AC26DCC02594F68600B1657B /* Service */ = {
