@@ -9,7 +9,7 @@
 import UIKit
 import AVKit
 
-protocol TrackMovingDelegate: class {
+protocol TrackMovingDelegate: AnyObject {
     func moveBackForPreviousTrack() -> CellSearchViewModel.Cell?
     func moveForwardForNextTrack() -> CellSearchViewModel.Cell?
 }
@@ -29,220 +29,72 @@ class TrackDetailView: UIView {
         return avPlayer
     }()
     
-    //MARK: - miniPlayerView
-    private let topLineMiniPlayerView: UIView = {
-        let view = UIView()
-        view.alpha = 0.7
-        view.backgroundColor = .opaqueSeparator
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    //MARK: - MiniPlayer UI elements:
+    let miniPlayerView = UIView(backgroundColor: .secondarySystemBackground)
+    private let topLineMiniPlayerView = UIView(alpha: 0.7,
+                                               backgroundColor: .opaqueSeparator)
+    private let miniPlayerStackView = UIStackView(axis: .horizontal,
+                                                  distribution: .fill,
+                                                  spacing: 16)
+    private let miniTrackImage = CoverImageView(contentMode: .scaleAspectFill)
+    private let miniTrackNameLabel = UILabel(weight: .regular)
+    private let miniPlayPauseButton = UIButton(image: #imageLiteral(resourceName: "pause"),
+                                               state: .normal)
+    private let miniNextTrackButton = UIButton(image: #imageLiteral(resourceName: "Right"),
+                                               state: .normal)
+
     
-    let miniPlayerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .secondarySystemBackground
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    //MARK: - UI elements:
+    let mainStackView = UIStackView(axis: .vertical,
+                                    distribution: .fill,
+                                    spacing: 10)
+    private let labelsOfTimeStaskView = UIStackView(distribution: .fillEqually)
+    private let trackTimeStackView = UIStackView(axis: .vertical,
+                                                 distribution: .fillProportionally)
+    private let trackNameStaskView = UIStackView(axis: .vertical,
+                                                 alignment: .center)
+    private let musicButtonsStackView = UIStackView(distribution: .fillEqually,
+                                                    alignment: .center)
+    private let volumeStackView = UIStackView(spacing: 10)
     
-    private let miniPlayerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.spacing = 16
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
     
-    private let miniTrackImage: CoverImageView = {
-        let image = CoverImageView()
-        image.contentMode = .scaleAspectFill
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
+    private let dragDownButton = UIButton(type: .custom,
+                                          image: #imageLiteral(resourceName: "Drag Down"),
+                                          state: .normal)
+    private let previousTrackButton = UIButton(image: #imageLiteral(resourceName: "Left"),
+                                               state: .normal)
+    private let nextTrackButton = UIButton(image: #imageLiteral(resourceName: "Right"),
+                                           state: .normal)
+    private let playPauseButton = UIButton(image: #imageLiteral(resourceName: "pause"),
+                                           state: .normal)
     
-    private let miniTrackNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Track"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
     
-    private let miniPlayPauseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.tintColor = .darkText
-        button.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 11,
-                                              left: 11,
-                                              bottom: 11,
-                                              right: 11)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let trackImage = CoverImageView(contentMode: .scaleAspectFill,
+                                            cornerRadius: 10)
+    private let lowSoundImage = UIImageView(image: #imageLiteral(resourceName: "Icon Min"))
+    private let loudSoundImage = UIImageView(image: #imageLiteral(resourceName: "IconMax"))
     
-    private let miniNextTrackButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.tintColor = .darkText
-        button.setImage(#imageLiteral(resourceName: "Right"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
-    //MARK: - StackViews
-    let mainStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    private let currentTimeLabel = UILabel(text: "00:00",
+                                           size: 15,
+                                           weight: .regular,
+                                           alignment: .left,
+                                           color: #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1))
+    private let durationTimeLabel = UILabel(text: "--:--",
+                                           size: 15,
+                                           weight: .regular,
+                                           alignment: .right,
+                                           color: #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1))
+    private let trackNameLabel = UILabel(size: 24,
+                                         weight: .semibold,
+                                         alignment: .right)
+    private let artistNameLabel = UILabel(size: 24,
+                                          weight: .light,
+                                          color: #colorLiteral(red: 0.9098039216, green: 0.2705882353, blue: 0.3529411765, alpha: 1))
+
     
-    private let labelsOfTimeStaskView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let trackTimeStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let trackNameStaskView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let musicButtonsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .fillEqually
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let volumeStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    //MARK: - UIButtons
-    private let dragDownButton: UIButton = {
-        let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "Drag Down"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let previousTrackButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.tintColor = .darkText
-        button.setImage(#imageLiteral(resourceName: "Left"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let nextTrackButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.tintColor = .darkText
-        button.setImage(#imageLiteral(resourceName: "Right"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let playPauseButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.tintColor = .darkText
-        button.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    //MARK: - UIImageViews
-    private let trackImage: CoverImageView = {
-        let image = CoverImageView()
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 10
-        image.layer.masksToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-    private let lowSoundImage: UIImageView = {
-        let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "Icon Min")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-    private let loudSoundImage: UIImageView = {
-        let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "IconMax")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-    //MARK: - UILabels
-    private let currentTimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "00:00"
-        label.font = .systemFont(ofSize: 15)
-        label.textColor = #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let durationTimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "--:--"
-        label.font = .systemFont(ofSize: 15)
-        label.textColor = #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1)
-        label.textAlignment = .right
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let trackNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Track"
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let artistNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Artist"
-        label.textColor = #colorLiteral(red: 0.9098039216, green: 0.2705882353, blue: 0.3529411765, alpha: 1)
-        label.font = .systemFont(ofSize: 24, weight: .light)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    //MARK: - UISliders
-    private let currentTimeSlider: UISlider = {
-        let slider = UISlider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        return slider
-    }()
-    
-    private let volumeSlider: UISlider = {
-        let slider = UISlider()
-        slider.value = 0.5
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        return slider
-    }()
+    private let currentTimeSlider = UISlider()
+    private let volumeSlider = UISlider(value: 0.5)
     
     //MARK: - Override methods:
     override func didMoveToSuperview() {
@@ -536,6 +388,12 @@ class TrackDetailView: UIView {
     
     //MARK: - SetupAutoLayout
     private func setupSubview() {
+        
+        miniPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 11,
+        left: 11,
+        bottom: 11,
+        right: 11)
+        
         backgroundColor = .white
         addSubview(miniPlayerView)
         addSubview(mainStackView)

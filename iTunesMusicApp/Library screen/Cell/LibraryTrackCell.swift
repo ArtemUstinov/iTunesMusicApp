@@ -10,76 +10,43 @@ import UIKit
 
 class LibraryTrackCell: UITableViewCell {
     
-    static let cellIdentifier = "TrackCell"
-    
-    //MARK: - UIStackViews:
-    private let trackStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let trackLabelsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 2
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
+        
     //MARK: - UI elements:
-    private let coverOfAlbum: CoverImageView = {
-        let image = CoverImageView()
-        image.backgroundColor = .red
-        image.contentMode = .scaleAspectFill
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
+    private let trackStackView = UIStackView(axis: .horizontal,
+                                             distribution: .fill,
+                                             spacing: 10)
     
-    private let trackNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.numberOfLines = 1
-        return label
-    }()
+    private let trackLabelsStackView = UIStackView(axis: .vertical,
+                                                   distribution: .fillEqually,
+                                                   spacing: 2)
     
-    private let artistNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1)
-        label.numberOfLines = 1
-        return label
-    }()
+    let coverOfAlbum = CoverImageView(contentMode: .scaleAspectFill)
+
+    private let trackNameLabel = UILabel(size: 17)
+    private let artistNameLabel = UILabel(size: 13, color: #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1))
+    private let albumNameLabel = UILabel(size: 12, color: #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1))
     
-    private let albumNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1)
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    private let priceAlbumLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 11)
-        label.textColor = #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1)
-        label.textAlignment = .right
-        return label
-    }()
+//    private let priceAlbumLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = .systemFont(ofSize: 11)
+//        label.textColor = #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1)
+//        label.textAlignment = .right
+//        return label
+//    }()
     
     //MARK: - Override methods:
     override func prepareForReuse() {
         super.prepareForReuse()
         
         coverOfAlbum.image = nil
+        trackNameLabel.text = nil
+        artistNameLabel.text = nil
+        albumNameLabel.text = nil
     }
     
     //MARK: - Public methods:
     func configureCell(with track: CellSearchViewModel.Cell) {
+        
         
         coverOfAlbum.fetchImage(from: track.trackPicture ?? "")
         trackNameLabel.text = track.trackName
@@ -96,6 +63,14 @@ class LibraryTrackCell: UITableViewCell {
     }
     
     private func setupLayoutTrackStackView() {
+        
+        trackStackView.addArrangedSubview(coverOfAlbum)
+        trackStackView.addArrangedSubview(trackLabelsStackView)
+        
+        trackLabelsStackView.addArrangedSubview(trackNameLabel)
+        trackLabelsStackView.addArrangedSubview(artistNameLabel)
+        trackLabelsStackView.addArrangedSubview(albumNameLabel)
+        
         NSLayoutConstraint.activate([
             trackStackView.topAnchor.constraint(equalTo: self.topAnchor,
                                                 constant: 12),
@@ -105,19 +80,11 @@ class LibraryTrackCell: UITableViewCell {
                                                     constant: 21),
             trackStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor,
                                                      constant: 0),
-        ])
-        
-        trackStackView.addArrangedSubview(coverOfAlbum)
-        NSLayoutConstraint.activate([
+            
             coverOfAlbum.heightAnchor.constraint(equalToConstant: 60),
             coverOfAlbum.widthAnchor.constraint(equalToConstant: 60)
         ])
-        
-        trackStackView.addArrangedSubview(trackLabelsStackView)
-        
-        trackLabelsStackView.addArrangedSubview(trackNameLabel)
-        trackLabelsStackView.addArrangedSubview(artistNameLabel)
-        trackLabelsStackView.addArrangedSubview(albumNameLabel)
     }
 }
+
 

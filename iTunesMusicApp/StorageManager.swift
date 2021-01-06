@@ -32,9 +32,16 @@ class StorageManager {
     
     func saveTrack(track: CellSearchViewModel.Cell?) {
         
-        var tracks = fetchTracks()
         guard let track = track else { return }
+        var tracks = fetchTracks()
         tracks.append(track)
+        guard let data = try? JSONEncoder().encode(tracks) else { return }
+        userDefaults.set(data, forKey: trackKey)
+    }
+    
+    func deleteTrack(at index: Int) {
+        var tracks = fetchTracks()
+        tracks.remove(at: index)
         guard let data = try? JSONEncoder().encode(tracks) else { return }
         userDefaults.set(data, forKey: trackKey)
     }

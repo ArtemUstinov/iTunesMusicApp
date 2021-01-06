@@ -23,7 +23,7 @@ class TabBarController: UITabBarController {
     private var maximizedTopAnchorConstraint: NSLayoutConstraint!
     private var bottomAnchorConstraint: NSLayoutConstraint!
     
-    private let trackDetailView = TrackDetailView()
+    let trackDetailView = TrackDetailView()
     
     
     //MARK: - Override methods:
@@ -31,6 +31,7 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         
         searchVC.tabBarDelegate = self
+        libraryVC.tabBarDelegate = self
         
         setupTabBar()
         

@@ -13,6 +13,20 @@ class CoverImageView: UIImageView {
     //MARK: - Private properties:
     private let networkManager = NetworkManager()
     
+    //MARK: - Initializers:
+    convenience init (
+        contentMode: UIView.ContentMode,
+        cornerRadius: CGFloat = 0,
+        masksToBounds: Bool = true,
+        autoresizing: Bool = false
+    ) {
+        self.init()
+        self.contentMode = contentMode
+        layer.cornerRadius = cornerRadius
+        layer.masksToBounds = masksToBounds
+        translatesAutoresizingMaskIntoConstraints = autoresizing
+    }
+    
     //MARK: - Public methods:
     func fetchImage(from url: String) {
         guard let url = URL(string: url) else {

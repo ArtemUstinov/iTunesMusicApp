@@ -39,9 +39,18 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         setupTableView()
         setup()
         setupSearchController()
-
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+//        albums.cells?[indexPath.row]
+//        
+//        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+//        let tabBarVC = keyWindow?.rootViewController as? TabBarController
+//        tabBarVC?.trackDetailView.trackMovingDelegate = self
+    }
 
     //MARK: - Public methods:
     func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
@@ -74,7 +83,7 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
 
     //MARK: - Private methods:
     private func setupTableView() {
-        /// добавили красивую упрощенную запись для частых операций
+        
         tableView.register(SearchTrackCell.self)
         tableView.tableFooterView = footerView
 
@@ -101,13 +110,6 @@ extension SearchViewController {
         let result = getFilteredAlbums(indexPath: indexPath)
         cell.configureCell(with: result)
         return cell
-
-//        guard let cell = tableView.dequeueReusableCell(
-//                withIdentifier: SearchTrackCell.identifier,
-//                for: indexPath) as? SearchTrackCell
-//        else {
-//            fatalError("Error! Not cell")
-//        }
     }
 
     override func tableView(_ tableView: UITableView,
@@ -126,13 +128,14 @@ extension SearchViewController {
         let halfScreen = UIScreen.main.bounds.height / 2
         let cellsIsEmpty = albums.cells?.isEmpty == true
         return cellsIsEmpty ? halfScreen : 0
-
-        /// Используй тернарный оператор только когда он упрощает запись и при этом оставляет её достаточно читаемой
-//        return (albums.cells?.count ?? 0) > 0 ? 0 : halfScreen
     }
 
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
+        
+//        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+//        let tabBarVC = keyWindow?.rootViewController as? TabBarController
+//        tabBarVC?.trackDetailView.trackMovingDelegate = self
 
         let selectedTrack = getFilteredAlbums(indexPath: indexPath)
         tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: selectedTrack)
@@ -173,7 +176,7 @@ extension SearchViewController: UISearchResultsUpdating  {
     private func getFilteredAlbums(indexPath: IndexPath) -> CellSearchViewModel.Cell {
 
         /// странный нейминг
-        guard let isFiltering = isFiltering ? albums.cells?[indexPath.item] : nil else {
+        guard let isFiltering = isFiltering ? albums.cells?[indexPath.row] : nil else {
             fatalError("Don't have sorted search")
         }
         return isFiltering
@@ -219,18 +222,3 @@ extension SearchViewController: TrackMovingDelegate {
     }
 }
 
-/// Вынести в отдельный файл Extensions/UIKit/UITableView+
-extension UITableView {
-
-    func dequeueReusableCell<T: UITableViewCell>(for indexPath: IndexPath) -> T {
-
-        guard let cell = dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as? T else {
-            fatalError("Could not dequeue cell with identifier: \(T.identifier)")
-        }
-        return cell
-    }
-
-    func register(_ cellType: UITableViewCell.Type) {
-        register(cellType.self, forCellReuseIdentifier: cellType.identifier)
-    }
-}
