@@ -16,7 +16,8 @@ extension UILabel {
         weight: UIFont.Weight = .medium,
         alignment: NSTextAlignment = .natural,
         lines: Int = 1,
-        color: UIColor = .darkText
+        color: UIColor = .darkText,
+        autoresizing: Bool = false
     ) {
         self.init()
         self.text = text
@@ -24,5 +25,6 @@ extension UILabel {
         textAlignment = alignment
         numberOfLines = lines
         textColor = color
+        translatesAutoresizingMaskIntoConstraints = autoresizing
     }
 }

@@ -9,30 +9,30 @@
 import UIKit
 
 enum Search {
-   
-  enum Model {
-    struct Request {
-      enum RequestType {
-        case getSearchData(searchText: String)
-      }
+    
+    enum Model {
+        struct Request {
+            enum RequestType {
+                case getSearchData(searchText: String)
+            }
+        }
+        struct Response {
+            enum ResponseType {
+                case presentFooterView
+                case presentSearchData(resultSearch: [Track]?)
+            }
+        }
+        struct ViewModel {
+            enum ViewModelData {
+                case displayFooterView
+                case displaySearchData(searchViewModel: CellSearchViewModel)
+            }
+        }
     }
-    struct Response {
-      enum ResponseType {
-        case presentFooterView
-        case presentSearchData(resultSearch: [Track]?)
-      }
-    }
-    struct ViewModel {
-      enum ViewModelData {
-        case displayFooterView
-        case displaySearchData(searchViewModel: CellSearchViewModel)
-      }
-    }
-  }
 }
 
 struct CellSearchViewModel: Codable {
-    struct Cell: SearchCellViewModelProtocol, Codable {
+    struct Cell: Codable {
         let trackId: Int?
         let artistName: String?
         let albumName: String?
@@ -42,7 +42,6 @@ struct CellSearchViewModel: Codable {
         let trackPrice: Double?
         let currency: String?
     }
-    
     let cells: [Cell]?
 }
 

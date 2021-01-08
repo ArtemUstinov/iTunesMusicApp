@@ -33,6 +33,7 @@
 		AC6303EA25A474D400F73F8C /* UISlider +.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6303E925A474D400F73F8C /* UISlider +.swift */; };
 		AC85B56025A38D9900BD5576 /* UITableViewCell +.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC85B55F25A38D9900BD5576 /* UITableViewCell +.swift */; };
 		AC85B56425A390E100BD5576 /* UILabel +.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC85B56325A390E100BD5576 /* UILabel +.swift */; };
+		AC8A6AD125A6021700AC1D33 /* UIWindow +.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8A6AD025A6021700AC1D33 /* UIWindow +.swift */; };
 		ACC83CFE25960629008DDA3A /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF725960629008DDA3A /* SearchPresenter.swift */; };
 		ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF825960629008DDA3A /* SearchWorker.swift */; };
 		ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC83CF925960629008DDA3A /* SearchRouter.swift */; };
@@ -73,6 +74,7 @@
 		AC6303E925A474D400F73F8C /* UISlider +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider +.swift"; sourceTree = "<group>"; };
 		AC85B55F25A38D9900BD5576 /* UITableViewCell +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell +.swift"; sourceTree = "<group>"; };
 		AC85B56325A390E100BD5576 /* UILabel +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel +.swift"; sourceTree = "<group>"; };
+		AC8A6AD025A6021700AC1D33 /* UIWindow +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow +.swift"; sourceTree = "<group>"; };
 		ACC83CF725960629008DDA3A /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		ACC83CF825960629008DDA3A /* SearchWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorker.swift; sourceTree = "<group>"; };
 		ACC83CF925960629008DDA3A /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
@@ -135,9 +137,9 @@
 				ACC83D07259653C8008DDA3A /* Cell */,
 				ACC83CFB25960629008DDA3A /* SearchViewController.swift */,
 				ACC83CFC25960629008DDA3A /* SearchInteractor.swift */,
+				ACC83CF825960629008DDA3A /* SearchWorker.swift */,
 				ACC83CF725960629008DDA3A /* SearchPresenter.swift */,
 				ACC83CFA25960629008DDA3A /* SearchModels.swift */,
-				ACC83CF825960629008DDA3A /* SearchWorker.swift */,
 				ACC83CF925960629008DDA3A /* SearchRouter.swift */,
 			);
 			path = "Search screen";
@@ -149,9 +151,9 @@
 				AC26DCBA2594F15C00B1657B /* Cell */,
 				AC32E27225A0B89B000043C7 /* LibraryViewController.swift */,
 				AC32E27325A0B89B000043C7 /* LibraryInteractor.swift */,
+				AC32E26F25A0B89B000043C7 /* LibraryWorker.swift */,
 				AC32E26E25A0B89B000043C7 /* LibraryPresenter.swift */,
 				AC32E27125A0B89B000043C7 /* LibraryModels.swift */,
-				AC32E26F25A0B89B000043C7 /* LibraryWorker.swift */,
 				AC32E27025A0B89B000043C7 /* LibraryRouter.swift */,
 			);
 			path = "Library screen";
@@ -246,6 +248,7 @@
 				AC6303E125A39DC500F73F8C /* UIButton +.swift */,
 				AC6303E925A474D400F73F8C /* UISlider +.swift */,
 				AC6303E725A463C300F73F8C /* UIImageView +.swift */,
+				AC8A6AD025A6021700AC1D33 /* UIWindow +.swift */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				ACF22D6F259A58D0007DC991 /* TrackDetailView.swift in Sources */,
 				ACC83D0225960629008DDA3A /* SearchViewController.swift in Sources */,
 				AC26DCCF2595065900B1657B /* CoverImageView.swift in Sources */,
+				AC8A6AD125A6021700AC1D33 /* UIWindow +.swift in Sources */,
 				ACC83CFF25960629008DDA3A /* SearchWorker.swift in Sources */,
 				ACC83D0025960629008DDA3A /* SearchRouter.swift in Sources */,
 				AC32E28125A0DB31000043C7 /* LibraryTrackCell.swift in Sources */,

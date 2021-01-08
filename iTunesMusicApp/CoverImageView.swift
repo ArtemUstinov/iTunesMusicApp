@@ -29,6 +29,7 @@ class CoverImageView: UIImageView {
     
     //MARK: - Public methods:
     func fetchImage(from url: String) {
+        
         guard let url = URL(string: url) else {
             image = #imageLiteral(resourceName: "album-art-empty")
             return
@@ -39,14 +40,15 @@ class CoverImageView: UIImageView {
             image = cachedImage
             return
         }
-
-        networkManager.fetchImageData(from: url, completion: {
+        
+        networkManager.fetchImageData(from: url) {
             [weak self] (imageData, response) in
             DispatchQueue.main.async {
                 self?.image = UIImage(data: imageData)
             }
-            self?.saveImageToCache(from: imageData, and: response)
-        })
+            self?.saveImageToCache(from: imageData,
+                                   and: response)
+        }
     }
     
     //MARK: - Private methods:
@@ -59,12 +61,15 @@ class CoverImageView: UIImageView {
         return nil
     }
     
-    private func saveImageToCache(from data: Data, and response: URLResponse) {
+    private func saveImageToCache(from data: Data,
+                                  and response: URLResponse) {
         
         guard let url = response.url else { return }
         let urlRequest = URLRequest(url: url)
-        let cachedResponse = CachedURLResponse(response: response, data: data)
-        URLCache.shared.storeCachedResponse(cachedResponse, for: urlRequest)
-        print("Save image")
+        let cachedResponse = CachedURLResponse(response: response,
+                                               data: data)
+        URLCache.shared.storeCachedResponse(cachedResponse,
+                                            for: urlRequest)
+        //        print("Save image")
     }
 }

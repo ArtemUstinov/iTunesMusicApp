@@ -25,7 +25,8 @@ class NetworkManager {
     func fetchSearchData(search text: String,
                          completion: @escaping(Result<[Track]?, Error>) -> Void) {
         
-        let urlString = String(format: ApiUrl.search, text)
+        let string = String(format: ApiUrl.search, text)
+        let urlString = string.split(separator: " ").joined(separator: "%20")
         
         guard let url = URL(string: urlString) else { return }
         

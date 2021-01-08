@@ -14,7 +14,6 @@ protocol SearchPresentationLogic {
 
 class SearchPresenter: SearchPresentationLogic {
     
-    //MARK: - Public properties:
     weak var viewController: SearchDisplayLogic?
     
     //MARK: - Public methods:
@@ -22,20 +21,20 @@ class SearchPresenter: SearchPresentationLogic {
         
         switch response {
         case .presentFooterView:
-            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displayFooterView)
+            viewController?.displayData(viewModel:
+                Search.Model.ViewModel.ViewModelData.displayFooterView)
         case .presentSearchData(let resultAlbums):
-            
             let albums = resultAlbums?.map({ album in
                 getSearchCellViewModel(from: album)
             })
             let searchViewModel = CellSearchViewModel(cells: albums)
-            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displaySearchData(searchViewModel: searchViewModel))
+            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displaySearchData(searchViewModel:
+                searchViewModel))
         }
     }
     
     //MARK: - Private methods:
     private func getSearchCellViewModel(from album: Track?) -> CellSearchViewModel.Cell {
-        
         CellSearchViewModel.Cell(trackId: album?.trackId,
                                  artistName: album?.artistName,
                                  albumName: album?.collectionName,

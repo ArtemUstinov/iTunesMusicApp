@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol TabBarControllerDelegate: class {
+protocol TabBarControllerDelegate: AnyObject {
     func setMinimizedTrackDetailView()
     func setMaximizedTrackDetailView(cellViewModel: CellSearchViewModel.Cell?)
 }
 
 class TabBarController: UITabBarController {
     
-    //MARK: - Private properties:
+    //MARK: - Properties:
     private let searchVC = SearchViewController()
     private let libraryVC = LibraryViewController()
     
@@ -25,7 +25,6 @@ class TabBarController: UITabBarController {
     
     let trackDetailView = TrackDetailView()
     
-    
     //MARK: - Override methods:
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,15 +33,13 @@ class TabBarController: UITabBarController {
         libraryVC.tabBarDelegate = self
         
         setupTabBar()
-        
         setupTrackDetailView()
     }
     
     //MARK: - Private methods:
     private func setupTabBar() {
-        
-        tabBar.barTintColor = .secondarySystemBackground
         tabBar.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.3764705882, alpha: 1)
+        tabBar.barTintColor = .secondarySystemBackground
         
         viewControllers = [
             generateViewController(rootViewController: searchVC,
@@ -64,7 +61,6 @@ class TabBarController: UITabBarController {
         navigationVC.tabBarItem.title = title
         rootViewController.navigationItem.title = title
         navigationVC.navigationBar.prefersLargeTitles = true
-        
         return navigationVC
     }
     
@@ -98,8 +94,7 @@ class TabBarController: UITabBarController {
 extension TabBarController: TabBarControllerDelegate {
     
     func setMaximizedTrackDetailView(cellViewModel: CellSearchViewModel.Cell?) {
-
-        /// Скрываем клавиатуру и первого респондера с серч бара
+        
         view.endEditing(true)
         
         minimizedTopAnchorConstraint.isActive = false

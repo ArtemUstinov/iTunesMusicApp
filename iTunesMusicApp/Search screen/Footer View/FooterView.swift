@@ -11,14 +11,9 @@ import UIKit
 class FooterView: UIView {
     
     //MARK: - Private properties:
-    private let loadingLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = #colorLiteral(red: 0.631372549, green: 0.6470588235, blue: 0.662745098, alpha: 1)
-        return label
-    }()
+    private let loadingLabel = UILabel(size: 14,
+                                       alignment: .center,
+                                       color: #colorLiteral(red: 0.631372549, green: 0.6470588235, blue: 0.662745098, alpha: 1))
     
     private let loaderIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
@@ -31,7 +26,6 @@ class FooterView: UIView {
     //MARK: - Initializers:
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupElements()
     }
     
@@ -39,33 +33,30 @@ class FooterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Public methods:
+    func showLoaderIndicator() {
+        loaderIndicator.startAnimating()
+        loadingLabel.text = "LOADING"
+    }
+    
+    func hideLoaderIndicator() {
+        loaderIndicator.stopAnimating()
+        loadingLabel.text = ""
+    }
+    
     //MARK: - Private methods:
     private func setupElements() {
-        
         addSubview(loadingLabel)
         addSubview(loaderIndicator)
         
         NSLayoutConstraint.activate([
             loaderIndicator.topAnchor.constraint(equalTo: topAnchor,
-                                                 constant: 8),
-            loaderIndicator.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                                     constant: 20),
-            loaderIndicator.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                      constant: -20),
+                                                 constant: -25),
+            loaderIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             loadingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             loadingLabel.topAnchor.constraint(equalTo: loaderIndicator.bottomAnchor,
                                               constant: 8)
         ])
-    }
-    
-     func showLoaderIndicator() {
-        loaderIndicator.startAnimating()
-        loadingLabel.text = "LOADING"
-    }
-    
-     func hideLoaderIndicator() {
-        loaderIndicator.stopAnimating()
-        loadingLabel.text = ""
     }
 }

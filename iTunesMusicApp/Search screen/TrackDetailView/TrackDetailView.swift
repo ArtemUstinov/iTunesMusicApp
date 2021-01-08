@@ -18,7 +18,6 @@ class TrackDetailView: UIView {
     
     //MARK: - Public properties:
     weak var trackMovingDelegate: TrackMovingDelegate?
-    
     weak var tabBarDelegate: TabBarControllerDelegate?
     
     //MARK: - Private properties:
@@ -30,19 +29,18 @@ class TrackDetailView: UIView {
     }()
     
     //MARK: - MiniPlayer UI elements:
-    let miniPlayerView = UIView(backgroundColor: .secondarySystemBackground)
-    private let topLineMiniPlayerView = UIView(alpha: 0.7,
-                                               backgroundColor: .opaqueSeparator)
     private let miniPlayerStackView = UIStackView(axis: .horizontal,
                                                   distribution: .fill,
                                                   spacing: 16)
-    private let miniTrackImage = CoverImageView(contentMode: .scaleAspectFill)
-    private let miniTrackNameLabel = UILabel(weight: .regular)
+    private let topLineMiniPlayerView = UIView(alpha: 0.7,
+                                               backgroundColor: .opaqueSeparator)
     private let miniPlayPauseButton = UIButton(image: #imageLiteral(resourceName: "pause"),
                                                state: .normal)
     private let miniNextTrackButton = UIButton(image: #imageLiteral(resourceName: "Right"),
                                                state: .normal)
-
+    private let miniTrackNameLabel = UILabel(weight: .regular)
+    private let miniTrackImage = CoverImageView(contentMode: .scaleAspectFill)
+    let miniPlayerView = UIView(backgroundColor: .secondarySystemBackground)
     
     //MARK: - UI elements:
     let mainStackView = UIStackView(axis: .vertical,
@@ -81,17 +79,17 @@ class TrackDetailView: UIView {
                                            alignment: .left,
                                            color: #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1))
     private let durationTimeLabel = UILabel(text: "--:--",
-                                           size: 15,
-                                           weight: .regular,
-                                           alignment: .right,
-                                           color: #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1))
+                                            size: 15,
+                                            weight: .regular,
+                                            alignment: .right,
+                                            color: #colorLiteral(red: 0.5647058824, green: 0.568627451, blue: 0.5882352941, alpha: 1))
     private let trackNameLabel = UILabel(size: 24,
                                          weight: .semibold,
                                          alignment: .right)
     private let artistNameLabel = UILabel(size: 24,
                                           weight: .light,
                                           color: #colorLiteral(red: 0.9098039216, green: 0.2705882353, blue: 0.3529411765, alpha: 1))
-
+    
     
     private let currentTimeSlider = UISlider()
     private let volumeSlider = UISlider(value: 0.5)
@@ -101,8 +99,6 @@ class TrackDetailView: UIView {
         super.didMoveToSuperview()
         
         setupGestures()
-        
-        
         addTargets()
         
         monitorStartTimeTrack()
@@ -111,12 +107,6 @@ class TrackDetailView: UIView {
         setupSubview()
         autoLayoutMainStackView()
         autoLayoutMiniPlayerView()
-        autoLayoutTrackTimeStackView()
-        autoLayoutLabelsOfTimeStackView()
-        autoLayoutTrackNameStackView()
-        autoLayoutMusicButtonsStackView()
-        autoLayoutVolumeStackView()
-        
     }
     
     //MARK: - SetupUI
@@ -139,33 +129,6 @@ class TrackDetailView: UIView {
         trackImage.fetchImage(from: convertImageSize ?? "")
         
         playTrack(from: cellViewModel.previewUrl)
-    }
-    
-    private func enlargeTrackImage() {
-        UIView.animate(withDuration: 1,
-                       delay: 0,
-                       usingSpringWithDamping: 0.5,
-                       initialSpringVelocity: 1,
-                       options: .curveEaseInOut,
-                       animations: {
-                        self.trackImage.transform = .identity
-        }, completion: nil)
-    }
-    
-    private func reduceTrackImage() {
-        UIView.animate(withDuration: 1,
-                       delay: 0,
-                       usingSpringWithDamping: 0.5,
-                       initialSpringVelocity: 1,
-                       options: .curveEaseInOut,
-                       animations: {
-                        self.getThumbnailImage(withScale: 0.8)
-        }, completion: nil)
-    }
-    
-    private func getThumbnailImage(withScale: CGFloat) {
-        let scale = withScale
-        trackImage.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
     
     //MARK: - Setup AVPlayer
@@ -212,20 +175,63 @@ class TrackDetailView: UIView {
         currentTimeSlider.value = Float(percentage)
     }
     
+    private func enlargeTrackImage() {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.trackImage.transform = .identity
+        }, completion: nil)
+    }
+    
+    private func reduceTrackImage() {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseInOut,
+                       animations: {
+                        self.getThumbnailImage(withScale: 0.8)
+        }, completion: nil)
+    }
+    
+    private func getThumbnailImage(withScale: CGFloat) {
+        let scale = withScale
+        trackImage.transform = CGAffineTransform(scaleX: scale, y: scale)
+    }
+    
     //MARK: - Setup gestures
     private func setupGestures() {
         
-        miniPlayerView.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                                   action: #selector(handleTapMaximized)))
-        
-        miniPlayerView.addGestureRecognizer(UIPanGestureRecognizer(target: self,
-                                                                   action: #selector(handlePanMaximized)))
-        
-        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanMinimized)))
+        miniPlayerView.addGestureRecognizer(
+            UITapGestureRecognizer(target: self,
+                                   action: #selector(handleTapMaximized))
+        )
+        miniPlayerView.addGestureRecognizer(
+            UIPanGestureRecognizer(target: self,
+                                   action: #selector(handlePanMaximized))
+        )
+        addGestureRecognizer(
+            UIPanGestureRecognizer(target: self,
+                                   action: #selector(handlePanMinimized))
+        )
     }
     
     @objc private func handleTapMaximized() {
         self.tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: nil)
+    }
+    
+    @objc private func handlePanMinimized(gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .changed:
+            handlePanChangedToMinimize(gesture: gesture)
+        case .ended:
+            handlePanEndedToMinimize(gesture: gesture)
+        default:
+            print("default")
+        }
     }
     
     @objc private func handlePanMaximized(gesture: UIPanGestureRecognizer) {
@@ -243,20 +249,10 @@ class TrackDetailView: UIView {
         }
     }
     
-    @objc private func handlePanMinimized(gesture: UIPanGestureRecognizer) {
-        switch gesture.state {
-        case .changed:
-            handlePanChangedToMinimize(gesture: gesture)
-        case .ended:
-            handlePanEndedToMinimize(gesture: gesture)
-        default:
-            print("default")
-        }
-    }
-    
     private func handlePanChangedToMazimize(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self)
-        transform = CGAffineTransform(translationX: 0, y: translation.y)
+        transform = CGAffineTransform(translationX: 0,
+                                      y: translation.y)
         
         let newAlpha = 1 + translation.y / 200
         miniPlayerView.alpha = newAlpha < 0 ? 0 : newAlpha
@@ -275,7 +271,9 @@ class TrackDetailView: UIView {
                        animations: {
                         self.transform = .identity
                         if translation.y < -200 || velocity.y < -500 {
-                            self.tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: nil)
+                            self.tabBarDelegate?.setMaximizedTrackDetailView(
+                                cellViewModel: nil
+                            )
                         } else {
                             self.tabBarDelegate?.setMinimizedTrackDetailView()
                         }
@@ -284,7 +282,8 @@ class TrackDetailView: UIView {
     
     private func handlePanChangedToMinimize(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self)
-        transform = CGAffineTransform(translationX: 0, y: translation.y)
+        transform = CGAffineTransform(translationX: 0,
+                                      y: translation.y)
         
     }
     
@@ -305,42 +304,34 @@ class TrackDetailView: UIView {
         }, completion: nil)
     }
     
-    //MARK: Targets
+    //MARK: - Targets UI elements
     private func addTargets() {
         miniPlayPauseButton.addTarget(self,
                                       action: #selector(playPauseButtonTapped),
                                       for: .touchUpInside)
-        
         miniNextTrackButton.addTarget(self,
                                       action: #selector(nextTrackButtonTapped),
                                       for: .touchUpInside)
-        
         dragDownButton.addTarget(self,
                                  action: #selector(dragDownButtonTapped),
                                  for: .touchUpInside)
-        
         playPauseButton.addTarget(self,
                                   action: #selector(playPauseButtonTapped),
                                   for: .touchUpInside)
-        
         currentTimeSlider.addTarget(self,
                                     action: #selector(handleCurrentTimeSlider),
                                     for: .valueChanged)
-        
         volumeSlider.addTarget(self,
                                action: #selector(handleVolumeSlider),
                                for: .valueChanged)
-        
         previousTrackButton.addTarget(self,
                                       action: #selector(previousTrackButtonTapped),
                                       for: .touchUpInside)
-        
         nextTrackButton.addTarget(self,
                                   action: #selector(nextTrackButtonTapped),
                                   for: .touchUpInside)
     }
     
-    //MARK: - @objc Actions
     @objc private func dragDownButtonTapped() {
         tabBarDelegate?.setMinimizedTrackDetailView()
         //        removeFromSuperview()
@@ -388,41 +379,43 @@ class TrackDetailView: UIView {
     
     //MARK: - SetupAutoLayout
     private func setupSubview() {
-        
-        miniPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 11,
-        left: 11,
-        bottom: 11,
-        right: 11)
-        
         backgroundColor = .white
         addSubview(miniPlayerView)
         addSubview(mainStackView)
+        
+        miniPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 11,
+                                                           left: 11,
+                                                           bottom: 11,
+                                                           right: 11)
     }
     
     private func autoLayoutMiniPlayerView() {
-        NSLayoutConstraint.activate([
-            miniPlayerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
-                                                constant: 0),
-            miniPlayerView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor,
-                                                    constant: 0),
-            miniPlayerView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor,
-                                                     constant: 0),
-            miniPlayerView.heightAnchor.constraint(equalToConstant: 64)
-        ])
-        
         miniPlayerView.addSubview(topLineMiniPlayerView)
+        miniPlayerView.addSubview(miniPlayerStackView)
+        miniPlayerStackView.addArrangedSubview(miniTrackImage)
+        miniPlayerStackView.addArrangedSubview(miniTrackNameLabel)
+        miniPlayerStackView.addArrangedSubview(miniPlayPauseButton)
+        miniPlayerStackView.addArrangedSubview(miniNextTrackButton)
+        
         NSLayoutConstraint.activate([
+            miniPlayerView.topAnchor.constraint(equalTo: topAnchor,
+                                                constant: 0),
+            miniPlayerView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                    constant: 0),
+            miniPlayerView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                     constant: 0),
+            miniPlayerView.heightAnchor.constraint(equalToConstant: 64),
+            
+            
             topLineMiniPlayerView.topAnchor.constraint(equalTo: miniPlayerView.topAnchor,
                                                        constant: 0),
             topLineMiniPlayerView.leadingAnchor.constraint(equalTo: miniPlayerView.leadingAnchor,
                                                            constant: 0),
             topLineMiniPlayerView.trailingAnchor.constraint(equalTo: miniPlayerView.trailingAnchor,
                                                             constant: 0),
-            topLineMiniPlayerView.heightAnchor.constraint(equalToConstant: 1)
-        ])
-        
-        miniPlayerView.addSubview(miniPlayerStackView)
-        NSLayoutConstraint.activate([
+            topLineMiniPlayerView.heightAnchor.constraint(equalToConstant: 1),
+            
+            
             miniPlayerStackView.topAnchor.constraint(equalTo: miniPlayerView.topAnchor,
                                                      constant: 8),
             miniPlayerStackView.bottomAnchor.constraint(equalTo: miniPlayerView.bottomAnchor,
@@ -431,31 +424,18 @@ class TrackDetailView: UIView {
                                                          constant: 8),
             miniPlayerStackView.trailingAnchor.constraint(equalTo: miniPlayerView.trailingAnchor,
                                                           constant: -8),
-        ])
-        
-        miniPlayerStackView.addArrangedSubview(miniTrackImage)
-        NSLayoutConstraint.activate([
-            miniTrackImage.widthAnchor.constraint(equalToConstant: 48)
-        ])
-        
-        miniPlayerStackView.addArrangedSubview(miniTrackNameLabel)
-        NSLayoutConstraint.activate([
             
-        ])
-        
-        miniPlayerStackView.addArrangedSubview(miniPlayPauseButton)
-        NSLayoutConstraint.activate([
-            miniPlayPauseButton.widthAnchor.constraint(equalToConstant: 48)
-        ])
-        
-        miniPlayerStackView.addArrangedSubview(miniNextTrackButton)
-        NSLayoutConstraint.activate([
+            
+            miniTrackImage.widthAnchor.constraint(equalToConstant: 48),
+            miniPlayPauseButton.widthAnchor.constraint(equalToConstant: 48),
             miniNextTrackButton.widthAnchor.constraint(equalToConstant: 48)
         ])
-        
     }
     
     private func autoLayoutMainStackView() {
+        mainStackView.addArrangedSubview(dragDownButton)
+        mainStackView.addArrangedSubview(trackImage)
+        
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
                                                constant: 0),
@@ -464,44 +444,39 @@ class TrackDetailView: UIView {
             mainStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor,
                                                    constant: 30),
             mainStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor,
-                                                    constant: -30)
-        ])
-        
-        mainStackView.addArrangedSubview(dragDownButton)
-        NSLayoutConstraint.activate([
-            dragDownButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        
-        mainStackView.addArrangedSubview(trackImage)
-        NSLayoutConstraint.activate([
+                                                    constant: -30),
+            
+            dragDownButton.heightAnchor.constraint(equalToConstant: 40),
             trackImage.widthAnchor.constraint(equalTo: trackImage.heightAnchor,
                                               multiplier: (1.0 / 1.0))
         ])
+        
+        autoLayoutTrackTimeStackView()
+        autoLayoutLabelsOfTimeStackView()
+        autoLayoutTrackNameStackView()
+        autoLayoutMusicButtonsStackView()
+        autoLayoutVolumeStackView()
     }
     
     private func autoLayoutLabelsOfTimeStackView() {
         trackTimeStackView.addArrangedSubview(labelsOfTimeStaskView)
-        
         labelsOfTimeStaskView.addArrangedSubview(currentTimeLabel)
         labelsOfTimeStaskView.addArrangedSubview(durationTimeLabel)
     }
     
     private func autoLayoutTrackTimeStackView() {
         mainStackView.addArrangedSubview(trackTimeStackView)
-        
         trackTimeStackView.addArrangedSubview(currentTimeSlider)
     }
     
     private func autoLayoutTrackNameStackView() {
         mainStackView.addArrangedSubview(trackNameStaskView)
-        
         trackNameStaskView.addArrangedSubview(trackNameLabel)
         trackNameStaskView.addArrangedSubview(artistNameLabel)
     }
     
     private func autoLayoutMusicButtonsStackView() {
         mainStackView.addArrangedSubview(musicButtonsStackView)
-        
         musicButtonsStackView.addArrangedSubview(previousTrackButton)
         musicButtonsStackView.addArrangedSubview(playPauseButton)
         musicButtonsStackView.addArrangedSubview(nextTrackButton)
@@ -509,18 +484,14 @@ class TrackDetailView: UIView {
     
     private func autoLayoutVolumeStackView() {
         mainStackView.addArrangedSubview(volumeStackView)
-        
         volumeStackView.addArrangedSubview(lowSoundImage)
+        volumeStackView.addArrangedSubview(volumeSlider)
+        volumeStackView.addArrangedSubview(loudSoundImage)
+        
         NSLayoutConstraint.activate([
             lowSoundImage.heightAnchor.constraint(equalToConstant: 17),
             lowSoundImage.widthAnchor.constraint(equalTo: lowSoundImage.heightAnchor,
-                                                 multiplier: (1.0 / 1.0))
-        ])
-        
-        volumeStackView.addArrangedSubview(volumeSlider)
-        
-        volumeStackView.addArrangedSubview(loudSoundImage)
-        NSLayoutConstraint.activate([
+                                                 multiplier: (1.0 / 1.0)),
             loudSoundImage.heightAnchor.constraint(equalToConstant: 17),
             loudSoundImage.widthAnchor.constraint(equalTo: loudSoundImage.heightAnchor,
                                                   multiplier: 1.0 / 1.0)

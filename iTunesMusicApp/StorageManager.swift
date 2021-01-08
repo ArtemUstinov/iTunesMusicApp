@@ -9,20 +9,20 @@
 import Foundation
 
 class StorageManager {
-    
     static let shared = StorageManager()
-    
     private init() {}
     
-    //MARK: - Private properties:
+    private enum Key: String {
+        case trackKey = "TrackKey"
+    }
+    
     private let userDefaults = UserDefaults.standard
-    private let trackKey = "TrackKey"
     
     //MARK: - Public methods:
     func fetchTracks() -> [CellSearchViewModel.Cell] {
         
         guard let data =
-            UserDefaults.standard.object(forKey: trackKey)
+            UserDefaults.standard.object(forKey: Key.trackKey.rawValue)
                 as? Data else { return [] }
         guard let tracks =
             try? JSONDecoder().decode([CellSearchViewModel.Cell].self,
@@ -36,13 +36,22 @@ class StorageManager {
         var tracks = fetchTracks()
         tracks.append(track)
         guard let data = try? JSONEncoder().encode(tracks) else { return }
-        userDefaults.set(data, forKey: trackKey)
+        userDefaults.set(data, forKey: Key.trackKey.rawValue)
     }
     
     func deleteTrack(at index: Int) {
         var tracks = fetchTracks()
         tracks.remove(at: index)
         guard let data = try? JSONEncoder().encode(tracks) else { return }
-        userDefaults.set(data, forKey: trackKey)
+        userDefaults.set(data, forKey: Key.trackKey.rawValue)
+    }
+    
+    func checkSavedTracks(for viewModel: CellSearchViewModel.Cell?,
+                          completion: @escaping (Bool) -> Void) {
+        let tracks = fetchTracks()
+        let isFavouriteTrack = tracks.first(where: {
+            $0.trackId == viewModel?.trackId
+        }) != nil
+        completion(isFavouriteTrack)
     }
 }

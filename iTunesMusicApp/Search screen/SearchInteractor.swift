@@ -14,11 +14,10 @@ protocol SearchBusinessLogic {
 
 class SearchInteractor: SearchBusinessLogic {
     
-    //MARK: - Public properties:
+    //MARK: - Properties:
     var presenter: SearchPresentationLogic?
     var service: SearchService?
     
-    //MARK: - Private properties:
     private let networkManager = NetworkManager()
     
     //MARK: - Public methods:
@@ -29,7 +28,8 @@ class SearchInteractor: SearchBusinessLogic {
         
         switch request {
         case .getSearchData(let searchText):
-            presenter?.presentData(response: Search.Model.Response.ResponseType.presentFooterView)
+            presenter?.presentData(response:
+                Search.Model.Response.ResponseType.presentFooterView)
             self.presentSearchData(with: searchText)
         }
     }
@@ -39,10 +39,9 @@ class SearchInteractor: SearchBusinessLogic {
         networkManager.fetchSearchData(search: text) {
             [weak self] resultData in
             switch resultData {
-            
             case .success(let searchResult):
-                self?.presenter?.presentData(response: Search.Model.Response.ResponseType.presentSearchData(resultSearch: searchResult))
-                
+                self?.presenter?.presentData(response: Search.Model.Response.ResponseType.presentSearchData(resultSearch:
+                    searchResult))
             case .failure(let error):
                 print(error.localizedDescription)
             }

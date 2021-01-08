@@ -13,19 +13,21 @@ extension UIButton {
     convenience init (
         type: UIButton.ButtonType = .system,
         tintColor: UIColor = .darkText,
-        image: UIImage,
+        text: String = "",
+        image: UIImage = UIImage(),
         state: UIControl.State,
         backgroundColor: UIColor = .clear,
-        cornerRadius: CGFloat = 0,
-        autoresizing: Bool = false
+        cornerRadius: CGFloat = 0
+//        autoresizing: Bool = false
     ) {
         self.init(type: type)
         self.tintColor = tintColor
+        setTitle(text, for: state)
+        titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         setImage(image, for: state)
         self.backgroundColor = backgroundColor
         layer.cornerRadius = cornerRadius
-        translatesAutoresizingMaskIntoConstraints = autoresizing
-        
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }
 

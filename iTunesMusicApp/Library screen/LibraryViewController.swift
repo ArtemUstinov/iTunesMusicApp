@@ -14,8 +14,14 @@ protocol LibraryDisplayLogic: AnyObject {
 
 class LibraryViewController: UIViewController, LibraryDisplayLogic {
     
-    //MARK: - Setup cleanArchitecture
+    //MARK: - Private properties:
+    private let tableView = UITableView()
+    private var favouriteTracks = StorageManager.shared.fetchTracks()
+    private var currentTrackIndex: IndexPath?
     
+    weak var tabBarDelegate: TabBarControllerDelegate?
+    
+    //MARK: - Setup cleanArchitecture
     var interactor: LibraryBusinessLogic?
     var router: (NSObjectProtocol & LibraryRoutingLogic)?
     
@@ -35,65 +41,41 @@ class LibraryViewController: UIViewController, LibraryDisplayLogic {
         
     }
     
-    //MARK: - Private properties:
-    private let tableView = UITableView()
-    
-    private var favouriteTracks = StorageManager.shared.fetchTracks()
-    
-    weak var tabBarDelegate: TabBarControllerDelegate?
-    
-    
-    
-    
-    //MARK: - UIViews:
-    private let bottomLineView: UIView = {
-        let view = UIView()
-        view.alpha = 0.7
-        view.backgroundColor = .opaqueSeparator
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     //MARK: - UI elements:
+    private let bottomLineView = UIView(alpha: 0.7,
+                                        backgroundColor: .opaqueSeparator)
+    
     private let favouriteTracksStackView = UIStackView(axis: .vertical,
                                                        distribution: .fill,
                                                        spacing: 10)
-    
     private let buttonsStackView = UIStackView(axis: .horizontal,
                                                distribution: .fillEqually,
                                                spacing: 20)
     
     private let playTrackButton = UIButton(
         tintColor: #colorLiteral(red: 0.9098039216, green: 0.2705882353, blue: 0.3529411765, alpha: 1),
-        image: UIImage(systemName: "play.fill")!,
+        image: UIImage(systemName: "play.fill") ?? UIImage(),
         state: .normal,
         backgroundColor: .secondarySystemBackground,
         cornerRadius: 10
     )
     
-    private let refreshListButton = UIButton(
+    private let sortListButton = UIButton(
         tintColor: #colorLiteral(red: 0.9098039216, green: 0.2705882353, blue: 0.3529411765, alpha: 1),
-        image: UIImage(systemName: "arrow.2.circlepath")!,
+        text: "A-Z",
         state: .normal,
         backgroundColor: .secondarySystemBackground,
         cornerRadius: 10
     )
     
+////     MARK: Routing
     
-    // MARK: Routing
-    
-    
-    
-    // MARK: Override methods:
+    // MARK: - Override methods:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setupTableView()
-        
         addTargets()
-        
-        addSubviews()
         setupLayoutFooterStackView()
     }
     
@@ -104,78 +86,92 @@ class LibraryViewController: UIViewController, LibraryDisplayLogic {
     }
     
     private func getRefreshTrackList() {
-        
         let refreshTrackList = StorageManager.shared.fetchTracks()
         if refreshTrackList.count != favouriteTracks.count {
-            favouriteTracks = StorageManager.shared.fetchTracks()
+            favouriteTracks = refreshTrackList
             tableView.reloadData()
         }
     }
     
     //MARK: - Setup TableView
     private func setupTableView() {
+        view.backgroundColor = .white
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(LibraryTrackCell.self)
-        
-        /// Скрываем пустые ячейки если у нас нет данных
         tableView.tableFooterView = UIView()
-        
         tableView.rowHeight = 84
-        view.backgroundColor = .white
     }
     
+    //MARK: - Targets
     private func addTargets() {
         playTrackButton.addTarget(self,
                                   action: #selector(handlePlayButtonTapped),
                                   for: .touchUpInside)
         
-        refreshListButton.addTarget(self,
+        sortListButton.addTarget(self,
                                     action: #selector(handleRefreshButtonTapped),
                                     for: .touchUpInside)
     }
     
-    
     @objc private func handlePlayButtonTapped() {
+                        
         if !favouriteTracks.isEmpty {
-            let track = favouriteTracks.first
-            tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: track)
+            let indexPath = IndexPath(row: 0, section: 0)
             
+            tableView.selectRow(at: indexPath,
+                                animated: true,
+                                scrollPosition: .bottom)
+            let track = favouriteTracks[0]
+            tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: track)
+
             let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
             let tabBarVC = keyWindow?.rootViewController as? TabBarController
             tabBarVC?.trackDetailView.trackMovingDelegate = self
+
         }
     }
     
     @objc private func handleRefreshButtonTapped() {
+        let date = "First added"
+        let az = "A-Z"
         getRefreshTrackList()
-        
+        if sortListButton.titleLabel?.text == az {
+            favouriteTracks =
+            favouriteTracks.sorted {$0.trackName ?? "" < $1.trackName ?? ""}
+            sortListButton.setTitle(date, for: .normal)
+        } else {
+            favouriteTracks = StorageManager.shared.fetchTracks()
+            sortListButton.setTitle(az, for: .normal)
+        }
+        tableView.reloadData()
     }
     
     //MARK: - Setup Layout
-    private func addSubviews() {
-        view.addSubview(favouriteTracksStackView)
-    }
-    
-    
     private func setupLayoutFooterStackView() {
+        view.addSubview(favouriteTracksStackView)
+        
         favouriteTracksStackView.addArrangedSubview(buttonsStackView)
         
         buttonsStackView.addArrangedSubview(playTrackButton)
-        buttonsStackView.addArrangedSubview(refreshListButton)
+        buttonsStackView.addArrangedSubview(sortListButton)
         
         favouriteTracksStackView.addArrangedSubview(bottomLineView)
         favouriteTracksStackView.addArrangedSubview(tableView)
         
         NSLayoutConstraint.activate([
-            favouriteTracksStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+            favouriteTracksStackView.topAnchor.constraint(equalTo:
+                view.safeAreaLayoutGuide.topAnchor,
                                                           constant: 20),
-            favouriteTracksStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+            favouriteTracksStackView.bottomAnchor.constraint(equalTo:
+                view.safeAreaLayoutGuide.bottomAnchor,
                                                              constant: 0),
-            favouriteTracksStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+            favouriteTracksStackView.leadingAnchor.constraint(equalTo:
+                view.safeAreaLayoutGuide.leadingAnchor,
                                                               constant: 20),
-            favouriteTracksStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+            favouriteTracksStackView.trailingAnchor.constraint(equalTo:
+                view.safeAreaLayoutGuide.trailingAnchor,
                                                                constant: -20),
             
             buttonsStackView.heightAnchor.constraint(equalToConstant: 50),
@@ -212,12 +208,14 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         
+        currentTrackIndex = indexPath
+        UIWindow().getKeyWindow(forTrack: self)
+        tableView.selectRow(at: indexPath,
+                            animated: true,
+                            scrollPosition: .middle)
+        
         let track = favouriteTracks[indexPath.row]
         tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: track)
-        
-        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        let tabBarVC = keyWindow?.rootViewController as? TabBarController
-        tabBarVC?.trackDetailView.trackMovingDelegate = self
     }
     
     func tableView(_ tableView: UITableView,
@@ -230,43 +228,42 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+    //MARK: - TrackMovingDelegate
 extension LibraryViewController: TrackMovingDelegate {
-            
-       private func getTrack(isForwardTrack: Bool) -> CellSearchViewModel.Cell? {
-            
-            guard let indexPath =
-                tableView.indexPathForSelectedRow else { return nil }
-            
-            var nextIndexPath = IndexPath(row: 0, section: 0) // !
-            if isForwardTrack {
-                nextIndexPath = IndexPath(row: indexPath.row + 1,
-                                          section: indexPath.section)
-                nextIndexPath.row == favouriteTracks.count
-                    ? nextIndexPath.row = 0
-                    : nil
-            } else {
-                nextIndexPath = IndexPath(row: indexPath.row - 1,
-                                          section: indexPath.section)
-                nextIndexPath.row == -1
-                    ? nextIndexPath.row = favouriteTracks.count - 1
-                    : nil
-            }
-            tableView.selectRow(at: nextIndexPath,
-                                animated: true,
-                                scrollPosition: .middle)
-            
-            let cellSearchViewModel = favouriteTracks[nextIndexPath.row]
-            return cellSearchViewModel
-        }
     
     func moveBackForPreviousTrack() -> CellSearchViewModel.Cell? {
-        
         getTrack(isForwardTrack: false)
     }
     
     func moveForwardForNextTrack() -> CellSearchViewModel.Cell? {
-        
         getTrack(isForwardTrack: true)
+    }
+    
+    private func getTrack(isForwardTrack: Bool) -> CellSearchViewModel.Cell? {
+        
+        guard let indexPath =
+            tableView.indexPathForSelectedRow else { return nil }
+        
+        var nextIndexPath = IndexPath(row: 0, section: 0) // !
+        if isForwardTrack {
+            nextIndexPath = IndexPath(row: indexPath.row + 1,
+                                      section: indexPath.section)
+            nextIndexPath.row == favouriteTracks.count
+                ? nextIndexPath.row = 0
+                : nil
+        } else {
+            nextIndexPath = IndexPath(row: indexPath.row - 1,
+                                      section: indexPath.section)
+            nextIndexPath.row == -1
+                ? nextIndexPath.row = favouriteTracks.count - 1
+                : nil
+        }
+        tableView.selectRow(at: nextIndexPath,
+                            animated: true,
+                            scrollPosition: .middle)
+        
+        let cellSearchViewModel = favouriteTracks[nextIndexPath.row]
+        return cellSearchViewModel
     }
 }
 
