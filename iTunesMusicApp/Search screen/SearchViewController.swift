@@ -52,6 +52,7 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
             self.albums = searchViewModel
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+//                self.tableView.contentInset.bottom = self.tabBarController?.tabBar.safeAreaInsets.bottom ?? .zero
                 self.footerView.hideLoaderIndicator()
             }
         }
@@ -65,13 +66,18 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         setupTableView()
         setupSearchController()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        tableView.selectRow(at: currentTrackIndex,
-                            animated: true,
-                            scrollPosition: .middle)
+        /// добавить пачку проверок, есть ли индекс, тот ли трек и тд
+
+//        guard let index = currentTrackIndex,
+//              let _ = tableView.cellForRow(at: index) else { return }
+//
+//        tableView.selectRow(at: index,
+//                            animated: true,
+//                            scrollPosition: .middle)
     }
     
     //MARK: - Private methods:
@@ -80,6 +86,8 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         tableView.tableFooterView = footerView
         tableView.rowHeight = 84
         tableView.backgroundColor = .secondarySystemBackground
+
+//        tableView.contentInset.bottom = 64
     }
     
     /// не размещай марки близко друг к другу, они конфликтуют на Minimap
