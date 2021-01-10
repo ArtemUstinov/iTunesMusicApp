@@ -47,7 +47,7 @@ class LibraryTrackCell: UITableViewCell {
     
     //MARK: - Setup Layout:
     private func setupLayoutTrackStackView() {
-        addSubview(trackStackView)
+        contentView.addSubview(trackStackView)
         
         trackStackView.addArrangedSubview(coverOfAlbum)
         trackStackView.addArrangedSubview(trackLabelsStackView)
@@ -55,17 +55,24 @@ class LibraryTrackCell: UITableViewCell {
         trackLabelsStackView.addArrangedSubview(trackNameLabel)
         trackLabelsStackView.addArrangedSubview(artistNameLabel)
         trackLabelsStackView.addArrangedSubview(albumNameLabel)
-        
+
+
+
         NSLayoutConstraint.activate([
-            trackStackView.topAnchor.constraint(equalTo: self.topAnchor,
-                                                constant: 12),
-            trackStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor,
-                                                   constant: -12),
-            trackStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-                                                    constant: 21),
-            trackStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-                                                     constant: 0),
-            
+            trackStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 12
+            ),
+            trackStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -12
+            ),
+            trackStackView.leadingAnchor.constraint(
+                equalTo: contentView.readableContentGuide.leadingAnchor
+            ),
+            trackStackView.trailingAnchor.constraint(
+                equalTo: contentView.readableContentGuide.trailingAnchor
+            ),
             coverOfAlbum.heightAnchor.constraint(equalToConstant: 60),
             coverOfAlbum.widthAnchor.constraint(equalToConstant: 60)
         ])

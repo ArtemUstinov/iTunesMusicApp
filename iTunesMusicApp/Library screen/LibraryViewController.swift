@@ -46,7 +46,6 @@ class LibraryViewController: UIViewController, LibraryDisplayLogic {
                                         backgroundColor: .opaqueSeparator)
     
     private let favouriteTracksStackView = UIStackView(axis: .vertical,
-                                                       distribution: .fill,
                                                        spacing: 10)
     private let buttonsStackView = UIStackView(axis: .horizontal,
                                                distribution: .fillEqually,
@@ -169,17 +168,17 @@ class LibraryViewController: UIViewController, LibraryDisplayLogic {
                                                              constant: 0),
             favouriteTracksStackView.leadingAnchor.constraint(equalTo:
                 view.safeAreaLayoutGuide.leadingAnchor,
-                                                              constant: 20),
+                                                              constant: 0),
             favouriteTracksStackView.trailingAnchor.constraint(equalTo:
                 view.safeAreaLayoutGuide.trailingAnchor,
-                                                               constant: -20),
+                                                               constant: 0),
             
             buttonsStackView.heightAnchor.constraint(equalToConstant: 50),
             
             bottomLineView.heightAnchor.constraint(equalToConstant: 1),
             
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                               constant: 0),
+//            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+//                                               constant: 0),
             tableView.trailingAnchor.constraint(equalTo: favouriteTracksStackView.trailingAnchor,
                                                 constant: 0)
         ])

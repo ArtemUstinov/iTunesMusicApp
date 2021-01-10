@@ -119,7 +119,10 @@ extension TabBarController: TabBarControllerDelegate {
     }
     
     func setMinimizedTrackDetailView() {
-        
+        let bottomInset = trackDetailView.miniPlayerView.frame.height
+        searchVC.tableView.contentInset.bottom = bottomInset
+        searchVC.tableView.verticalScrollIndicatorInsets.bottom = bottomInset
+
         maximizedTopAnchorConstraint.isActive = false
         bottomAnchorConstraint.constant = view.frame.height
         minimizedTopAnchorConstraint.isActive = true
@@ -136,4 +139,10 @@ extension TabBarController: TabBarControllerDelegate {
                         self.trackDetailView.miniPlayerView.alpha = 1
         }, completion: nil)
     }
+
+//    func changePlayerVisibility(isHidden: Bool) {
+//        let bottomInset = isHidden ? 0 : trackDetailView.miniPlayerView.frame.height
+//        searchVC.tableView.contentInset.bottom = bottomInset
+//        searchVC.tableView.scrollIndicatorInsets.bottom = bottomInset
+//    }
 }

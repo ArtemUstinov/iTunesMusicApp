@@ -60,6 +60,7 @@ class SearchTrackCell: UITableViewCell {
     
     //MARK: - Private methods:
     private func checkSavedTracks() {
+        /// это надо проверять после получения данных с сервера, добавить isFavorite в модель ячейки
         StorageManager.shared.checkSavedTracks(for: cellSearchViewModel) {
             [weak self] isFavouriteTrack in
             self?.addButton.isHidden = isFavouriteTrack
@@ -104,6 +105,7 @@ class SearchTrackCell: UITableViewCell {
     }
     
     @objc private func handleAddButtonTapped() {
+        /// сделать делегат для ячейки, обрабатывать данную логику в vc
         StorageManager.shared.saveTrack(track: cellSearchViewModel)
         addButton.isHidden = true
     }

@@ -9,13 +9,14 @@
 import UIKit
 
 extension UIButton {
-    
+
+    /// ненадо делать таких больших init.
     convenience init (
         type: UIButton.ButtonType = .system,
         tintColor: UIColor = .darkText,
         text: String = "",
         image: UIImage = UIImage(),
-        state: UIControl.State,
+        state: UIControl.State, /// ненужный параметр, всегда .normal
         backgroundColor: UIColor = .clear,
         cornerRadius: CGFloat = 0
 //        autoresizing: Bool = false
