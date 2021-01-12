@@ -55,8 +55,10 @@ class FooterView: UIView {
             loaderIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             loadingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            loadingLabel.topAnchor.constraint(equalTo: loaderIndicator.bottomAnchor,
-                                              constant: 8)
+            loadingLabel.topAnchor.constraint(
+                equalTo: loaderIndicator.bottomAnchor,
+                constant: 8
+            )
         ])
     }
 }

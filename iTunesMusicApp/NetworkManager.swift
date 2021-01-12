@@ -17,16 +17,14 @@ class NetworkManager {
         "https://itunes.apple.com/lookup?id=%@&entity=song&limit=200"
     }
     
-    func fetchData<T>(search text: String,
-                      completion: @escaping(Result<[T]?, Error>) -> Void) {
-        
-    }
-    
-    func fetchSearchData(search text: String,
-                         completion: @escaping(Result<[Track]?, Error>) -> Void) {
-        
+    //MARK: - Public methods:
+    func fetchSearchData(
+        search text: String,
+        completion: @escaping(Result<[Track]?, Error>) -> Void
+    ) {
         let string = String(format: ApiUrl.search, text)
-        let urlString = string.split(separator: " ").joined(separator: "%20")
+        let urlString =
+            string.split(separator: " ").joined(separator: "%20")
         
         guard let url = URL(string: urlString) else { return }
         
@@ -39,29 +37,30 @@ class NetworkManager {
             guard let data = data else { return }
             
             do {
-                let albums = try JSONDecoder().decode(SearchModel<Track>.self,
-                                                      from: data)
+                let albums =
+                    try JSONDecoder().decode(SearchModel<Track>.self,
+                                             from: data)
                 completion(.success(albums.results))
             } catch let error {
-                //completion Error
                 print(error.localizedDescription)
             }
         }.resume()
     }
     
-    func fetchImageData(from url: URL,
-                        completion: @escaping(Data, URLResponse) -> Void) {
-        
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+    func fetchImageData(
+        from url: URL,
+        completion: @escaping(Data, URLResponse) -> Void
+    ) {
+        URLSession.shared.dataTask(with: url) {
+            (data, response, error) in
             if let error = error {
-                //Completion with Result failure
                 print(error.localizedDescription)
                 return
             }
-            guard let data = data, let response = response else {
-                //completiom with Result failure
-                print(error?.localizedDescription ?? "No error description")
-                return }
+            guard let data = data,
+                let response = response else {
+                    print(error?.localizedDescription ?? "Unknown error")
+                    return }
             completion(data, response)
         }.resume()
     }

@@ -8,40 +8,43 @@
 
 import UIKit
 
+//MARK: - Protocols
 protocol SearchDisplayLogic: AnyObject {
     func displayData(viewModel: Search.Model.ViewModel.ViewModelData)
+}
+
+protocol SearchTrackCellDelegate {
+    func saveTrack(track: CellSearchModel.Cell?)
 }
 
 class SearchViewController: UITableViewController, SearchDisplayLogic {
     
     //MARK: - Properties:
+    weak var tabBarDelegate: TabBarControllerDelegate?
+    
+    private let alertController = AlertController()
     private lazy var footerView = FooterView()
-    private var albums = CellSearchViewModel(cells: [])
+    private var albums = CellSearchModel(cells: [])
     private var timer: Timer?
     private var currentTrackIndex: IndexPath?
+    private var isFavouriteTrack = false
     
-    private let searchController =
+     let searchController =
         UISearchController(searchResultsController: nil)
     private var isFiltering: Bool {
         !(searchController.searchBar.text?.isEmpty ?? false)
     }
     
-    weak var tabBarDelegate: TabBarControllerDelegate?
-    
     //MARK: - Setup cleanArchitecture
     var interactor: SearchBusinessLogic?
-    var router: (NSObjectProtocol & SearchRoutingLogic)?
     
     private func setup() {
         let viewController = self
         let interactor = SearchInteractor()
         let presenter = SearchPresenter()
-        let router = SearchRouter()
         viewController.interactor = interactor
-        viewController.router = router
         interactor.presenter = presenter
         presenter.viewController = viewController
-        router.viewController = viewController
     }
     
     func displayData(viewModel: Search.Model.ViewModel.ViewModelData) {
@@ -52,32 +55,30 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
             self.albums = searchViewModel
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-//                self.tableView.contentInset.bottom = self.tabBarController?.tabBar.safeAreaInsets.bottom ?? .zero
                 self.footerView.hideLoaderIndicator()
             }
+        case .displayError(let error):
+            alertController.show(with: error) {
+                [weak self] alert in
+                self?.present(alert, animated: true)
+            }
+        case .displayFavouriteTrack(let isFavourite):
+            self.isFavouriteTrack = isFavourite
         }
     }
     
     // MARK: - Override methods:
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupSearchController()
         setup()
         setupTableView()
-        setupSearchController()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        /// добавить пачку проверок, есть ли индекс, тот ли трек и тд
-
-//        guard let index = currentTrackIndex,
-//              let _ = tableView.cellForRow(at: index) else { return }
-//
-//        tableView.selectRow(at: index,
-//                            animated: true,
-//                            scrollPosition: .middle)
+        checkCellForActivity()
+        tableView.reloadData()
     }
     
     //MARK: - Private methods:
@@ -85,45 +86,61 @@ class SearchViewController: UITableViewController, SearchDisplayLogic {
         tableView.register(SearchTrackCell.self)
         tableView.tableFooterView = footerView
         tableView.rowHeight = 84
-        tableView.backgroundColor = .secondarySystemBackground
-
-//        tableView.contentInset.bottom = 64
     }
     
-    /// не размещай марки близко друг к другу, они конфликтуют на Minimap
-    /// MARK: Routing
+    private func checkCellForActivity() {
+        if searchController.isActive {
+            tableView.selectRow(at: currentTrackIndex,
+                                animated: true,
+                                scrollPosition: .middle)
+        }
+    }    
 }
 
 // MARK: - TableView
 extension SearchViewController {
     
-    override func tableView(_ tableView: UITableView,
-                            numberOfRowsInSection section: Int) -> Int {
+    override func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
         isFiltering ? (albums.cells?.count ?? 0) : 0
     }
     
-    override func tableView(_ tableView: UITableView,
-                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
         
-        let cell: SearchTrackCell = tableView.dequeueReusableCell(for: indexPath)
+        let cell: SearchTrackCell =
+            tableView.dequeueReusableCell(for: indexPath)
+        cell.searchTrackCellDelegate = self
         let result = getFilteredTracks(indexPath: indexPath)
-        cell.configureCell(with: result)
+        interactor?.makeRequest(request:
+            Search.Model.Request.RequestType.getStorageData(forCell: result)
+        )
+        cell.configureCell(with: result, isFavourite: isFavouriteTrack)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView,
-                            viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
         
         let label = UILabel()
         label.text = "Please enter search term above"
+        label.textColor = .lightGray
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.numberOfLines = 0
         return label
     }
     
-    override func tableView(_ tableView: UITableView,
-                            heightForHeaderInSection section: Int) -> CGFloat {
-        
+    override func tableView(
+        _ tableView: UITableView,
+        heightForHeaderInSection section: Int
+    ) -> CGFloat {
         let halfScreen = UIScreen.main.bounds.height / 1.5
         let cellsIsEmpty = albums.cells?.isEmpty == true
         return cellsIsEmpty ? halfScreen : 0
@@ -132,12 +149,12 @@ extension SearchViewController {
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         
-        UIWindow().getKeyWindow(forTrack: self)
+        UIWindow().getKeyWindow(forPlayTrack: self)
         currentTrackIndex = indexPath
         tableView.selectRow(at: indexPath,
                             animated: true,
                             scrollPosition: .middle)
-
+        
         let selectedTrack = getFilteredTracks(indexPath: indexPath)
         tabBarDelegate?.setMaximizedTrackDetailView(cellViewModel: selectedTrack)
     }
@@ -150,8 +167,9 @@ extension SearchViewController: UISearchResultsUpdating  {
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Name of track"
+        searchController.searchBar.placeholder = "Artist or track"
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
     
@@ -161,10 +179,9 @@ extension SearchViewController: UISearchResultsUpdating  {
     
     private func filterContentForSearchText(_ searchText: String) {
         
-        /// Разберись как отменять предыдущие запросы, что бы не было возможности отображения "просроченных" данных
         timer?.invalidate()
         timer = Timer.scheduledTimer(
-            withTimeInterval: 0.4,
+            withTimeInterval: 0.27,
             repeats: false,
             block: { [weak self] _ in
                 self?.interactor?
@@ -173,11 +190,13 @@ extension SearchViewController: UISearchResultsUpdating  {
         })
     }
     
-    private func getFilteredTracks(indexPath: IndexPath) -> CellSearchViewModel.Cell {
+    private func getFilteredTracks(
+        indexPath: IndexPath
+    ) -> CellSearchModel.Cell {
         
-        guard let tracks = isFiltering ? albums.cells?[indexPath.row] : nil else {
-            fatalError("Don't have sorted search")
-        }
+        guard let tracks = isFiltering
+            ? albums.cells?[indexPath.row]
+            : nil else { fatalError("Don't have sorted search") }
         return tracks
     }
 }
@@ -185,15 +204,15 @@ extension SearchViewController: UISearchResultsUpdating  {
 // MARK: - TrackMovingDelegate
 extension SearchViewController: TrackMovingDelegate {
     
-    func moveBackForPreviousTrack() -> CellSearchViewModel.Cell? {
+    func moveBackForPreviousTrack() -> CellSearchModel.Cell? {
         getTrack(isForwardTrack: false)
     }
     
-    func moveForwardForNextTrack() -> CellSearchViewModel.Cell? {
+    func moveForwardForNextTrack() -> CellSearchModel.Cell? {
         getTrack(isForwardTrack: true)
     }
     
-    private func getTrack(isForwardTrack: Bool) -> CellSearchViewModel.Cell? {
+    private func getTrack(isForwardTrack: Bool) -> CellSearchModel.Cell? {
         
         guard let indexPath =
             tableView.indexPathForSelectedRow else { return nil }
@@ -219,6 +238,15 @@ extension SearchViewController: TrackMovingDelegate {
         currentTrackIndex = nextIndexPath
         let cellSearchViewModel = albums.cells?[nextIndexPath.row]
         return cellSearchViewModel
+    }
+}
+
+extension SearchViewController: SearchTrackCellDelegate {
+    func saveTrack(track: CellSearchModel.Cell?) {
+        interactor?.makeRequest(
+            request:
+            Search.Model.Request.RequestType.saveTrack(track: track)
+        )
     }
 }
 

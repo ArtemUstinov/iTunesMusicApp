@@ -8,13 +8,16 @@
 
 import UIKit
 
+//MARK: - Protocols
 protocol SearchPresentationLogic {
     func presentData(response: Search.Model.Response.ResponseType)
 }
 
 class SearchPresenter: SearchPresentationLogic {
     
+    //MARK: Properties:
     weak var viewController: SearchDisplayLogic?
+    let alertController = AlertController()
     
     //MARK: - Public methods:
     func presentData(response: Search.Model.Response.ResponseType) {
@@ -23,25 +26,39 @@ class SearchPresenter: SearchPresentationLogic {
         case .presentFooterView:
             viewController?.displayData(viewModel:
                 Search.Model.ViewModel.ViewModelData.displayFooterView)
-        case .presentSearchData(let resultAlbums):
-            let albums = resultAlbums?.map({ album in
-                getSearchCellViewModel(from: album)
+        case .presentSearchData(let resultTracks):
+            let track = resultTracks?.map({ track in
+                getCellSearchModel(from: track)
             })
-            let searchViewModel = CellSearchViewModel(cells: albums)
-            viewController?.displayData(viewModel: Search.Model.ViewModel.ViewModelData.displaySearchData(searchViewModel:
-                searchViewModel))
+            let searchViewModel = CellSearchModel(cells: track)
+            viewController?.displayData(viewModel:
+                Search.Model.ViewModel.ViewModelData.displaySearchData(
+                    searchViewModel: searchViewModel
+                )
+            )
+        case .presentError(let error):
+            viewController?.displayData(viewModel:
+                Search.Model.ViewModel.ViewModelData.displayError(
+                    error: error
+                )
+            )
+        case .presentStorageData(let isFavourite):
+            viewController?.displayData(viewModel:
+                Search.Model.ViewModel.ViewModelData.displayFavouriteTrack(
+                    isFavourite: isFavourite)
+            )
         }
     }
     
     //MARK: - Private methods:
-    private func getSearchCellViewModel(from album: Track?) -> CellSearchViewModel.Cell {
-        CellSearchViewModel.Cell(trackId: album?.trackId,
-                                 artistName: album?.artistName,
-                                 albumName: album?.collectionName,
-                                 trackName: album?.trackName,
-                                 previewUrl: album?.previewUrl,
-                                 trackPicture: album?.albumPicture,
-                                 trackPrice: album?.trackPrice,
-                                 currency: album?.currency)
+    private func getCellSearchModel(
+        from track: Track?
+    ) -> CellSearchModel.Cell {
+        CellSearchModel.Cell(trackId: track?.trackId,
+                             artistName: track?.artistName,
+                             albumName: track?.collectionName,
+                             trackName: track?.trackName,
+                             previewUrl: track?.previewUrl,
+                             trackPicture: track?.albumPicture)
     }
 }

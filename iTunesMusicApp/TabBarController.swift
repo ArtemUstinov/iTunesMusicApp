@@ -8,14 +8,17 @@
 
 import UIKit
 
+//MARK: - Protocols
 protocol TabBarControllerDelegate: AnyObject {
     func setMinimizedTrackDetailView()
-    func setMaximizedTrackDetailView(cellViewModel: CellSearchViewModel.Cell?)
+    func setMaximizedTrackDetailView(cellViewModel: CellSearchModel.Cell?)
 }
 
 class TabBarController: UITabBarController {
     
     //MARK: - Properties:
+    let trackDetailView = TrackDetailView()
+    
     private let searchVC = SearchViewController()
     private let libraryVC = LibraryViewController()
     
@@ -23,12 +26,9 @@ class TabBarController: UITabBarController {
     private var maximizedTopAnchorConstraint: NSLayoutConstraint!
     private var bottomAnchorConstraint: NSLayoutConstraint!
     
-    let trackDetailView = TrackDetailView()
-    
     //MARK: - Override methods:
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchVC.tabBarDelegate = self
         libraryVC.tabBarDelegate = self
         
@@ -36,24 +36,25 @@ class TabBarController: UITabBarController {
         setupTrackDetailView()
     }
     
-    //MARK: - Private methods:
+    //MARK: - Setups methods:
     private func setupTabBar() {
         tabBar.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.3764705882, alpha: 1)
-        tabBar.barTintColor = .secondarySystemBackground
         
         viewControllers = [
-            generateViewController(rootViewController: searchVC,
-                                   image: #imageLiteral(resourceName: "search"),
-                                   title: "Search"),
             generateViewController(rootViewController: libraryVC,
                                    image: #imageLiteral(resourceName: "library"),
-                                   title: "Library")
+                                   title: "Media library"),
+            generateViewController(rootViewController: searchVC,
+                                   image: #imageLiteral(resourceName: "search"),
+                                   title: "Search")
         ]
     }
     
-    private func generateViewController(rootViewController: UIViewController,
-                                        image: UIImage?,
-                                        title: String) -> UIViewController {
+    private func generateViewController(
+        rootViewController: UIViewController,
+        image: UIImage?,
+        title: String
+    ) -> UIViewController {
         
         let navigationVC =
             UINavigationController(rootViewController: rootViewController)
@@ -72,28 +73,39 @@ class TabBarController: UITabBarController {
                            belowSubview: tabBar)
         
         maximizedTopAnchorConstraint =
-            trackDetailView.topAnchor.constraint(equalTo: view.topAnchor,
-                                                 constant: view.frame.height)
+            trackDetailView.topAnchor.constraint(
+                equalTo: view.topAnchor,
+                constant: view.frame.height
+        )
         minimizedTopAnchorConstraint =
-            trackDetailView.topAnchor.constraint(equalTo: tabBar.topAnchor,
-                                                 constant: -64)
+            trackDetailView.topAnchor.constraint(
+                equalTo: tabBar.topAnchor,
+                constant: -64
+        )
         bottomAnchorConstraint =
-            trackDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                    constant: view.frame.height)
+            trackDetailView.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor,
+                constant: view.frame.height
+        )
         
         trackDetailView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             maximizedTopAnchorConstraint,
             bottomAnchorConstraint,
-            trackDetailView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            trackDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            trackDetailView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            trackDetailView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
         ])
     }
 }
 
+//MARK: - TabBarControllerDelegate
 extension TabBarController: TabBarControllerDelegate {
     
-    func setMaximizedTrackDetailView(cellViewModel: CellSearchViewModel.Cell?) {
+    func setMaximizedTrackDetailView(cellViewModel: CellSearchModel.Cell?) {
         
         view.endEditing(true)
         
@@ -119,10 +131,11 @@ extension TabBarController: TabBarControllerDelegate {
     }
     
     func setMinimizedTrackDetailView() {
-        let bottomInset = trackDetailView.miniPlayerView.frame.height
-        searchVC.tableView.contentInset.bottom = bottomInset
-        searchVC.tableView.verticalScrollIndicatorInsets.bottom = bottomInset
-
+        changePlayerVisibility(table: searchVC.tableView,
+                               isHidden: false)
+        changePlayerVisibility(table: libraryVC.tableView,
+                               isHidden: false)
+        
         maximizedTopAnchorConstraint.isActive = false
         bottomAnchorConstraint.constant = view.frame.height
         minimizedTopAnchorConstraint.isActive = true
@@ -139,10 +152,13 @@ extension TabBarController: TabBarControllerDelegate {
                         self.trackDetailView.miniPlayerView.alpha = 1
         }, completion: nil)
     }
-
-//    func changePlayerVisibility(isHidden: Bool) {
-//        let bottomInset = isHidden ? 0 : trackDetailView.miniPlayerView.frame.height
-//        searchVC.tableView.contentInset.bottom = bottomInset
-//        searchVC.tableView.scrollIndicatorInsets.bottom = bottomInset
-//    }
+    
+    private func changePlayerVisibility(table: UITableView,
+                                        isHidden: Bool) {
+        let bottomInset = isHidden
+            ? 0
+            : trackDetailView.miniPlayerView.frame.height
+        table.contentInset.bottom = bottomInset
+        table.verticalScrollIndicatorInsets.bottom = bottomInset
+    }
 }

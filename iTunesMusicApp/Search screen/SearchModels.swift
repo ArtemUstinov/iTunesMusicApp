@@ -14,24 +14,30 @@ enum Search {
         struct Request {
             enum RequestType {
                 case getSearchData(searchText: String)
+                case getStorageData(forCell: CellSearchModel.Cell)
+                case saveTrack(track: CellSearchModel.Cell?)
             }
         }
         struct Response {
             enum ResponseType {
                 case presentFooterView
                 case presentSearchData(resultSearch: [Track]?)
+                case presentError(error: Error)
+                case presentStorageData(isFavourite: Bool)
             }
         }
         struct ViewModel {
             enum ViewModelData {
                 case displayFooterView
-                case displaySearchData(searchViewModel: CellSearchViewModel)
+                case displaySearchData(searchViewModel: CellSearchModel)
+                case displayError(error: Error)
+                case displayFavouriteTrack(isFavourite: Bool)
             }
         }
     }
 }
 
-struct CellSearchViewModel: Codable {
+struct CellSearchModel: Codable {
     struct Cell: Codable {
         let trackId: Int?
         let artistName: String?
@@ -39,8 +45,6 @@ struct CellSearchViewModel: Codable {
         let trackName: String?
         let previewUrl: String?
         let trackPicture: String?
-        let trackPrice: Double?
-        let currency: String?
     }
     let cells: [Cell]?
 }

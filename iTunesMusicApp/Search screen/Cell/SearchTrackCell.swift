@@ -10,25 +10,30 @@ import UIKit
 
 class SearchTrackCell: UITableViewCell {
     
-    private var cellSearchViewModel: CellSearchViewModel.Cell?
+    //MARK: - Properties:
+    var searchTrackCellDelegate: SearchTrackCellDelegate?
+    private var cellSearchViewModel: CellSearchModel.Cell?
     
     //MARK: - UI elements:
-    private let trackStackView = UIStackView(axis: .horizontal,
-                                             distribution: .fill,
-                                             spacing: 10)
-    private let trackLabelsStackView = UIStackView(axis: .vertical,
-                                                   distribution: .fillEqually,
-                                                   spacing: 2)
+    private let trackStackView = UIStackView(
+        axis: .horizontal,
+        distribution: .fill,
+        spacing: 10
+    )
+    private let trackLabelsStackView = UIStackView(
+        axis: .vertical,
+        distribution: .fillEqually,
+        spacing: 2
+    )
     
-    private let coverOfAlbum = CoverImageView(contentMode: .scaleAspectFill)
+    private let coverOfAlbum = CoverImageView(cornerRadius: 5)
     
     private let trackNameLabel = UILabel(size: 17)
     private let artistNameLabel = UILabel(size: 13, color: #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1))
     private let albumNameLabel = UILabel(size: 12, color: #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1))
     
     private let addButton = UIButton(tintColor: #colorLiteral(red: 0.9098039216, green: 0.2705882353, blue: 0.3529411765, alpha: 1),
-                                     image: #imageLiteral(resourceName: "Add"),
-                                     state: .normal)
+                                     image: #imageLiteral(resourceName: "Add"))
     
     //MARK: - Override methods:
     override func prepareForReuse() {
@@ -41,30 +46,18 @@ class SearchTrackCell: UITableViewCell {
     }
     
     //MARK: - Public methods:
-    func configureCell(with album: CellSearchViewModel.Cell) {
+    func configureCell(with track: CellSearchModel.Cell, isFavourite: Bool) {
         
-        /// Режим выделения ячейки
-//        selectionStyle = .none
+        cellSearchViewModel = track
+        addButton.isHidden = isFavourite
         
-        cellSearchViewModel = album
-        checkSavedTracks()
-        
-        coverOfAlbum.fetchImage(from: album.trackPicture ?? "")
-        trackNameLabel.text = album.trackName
-        artistNameLabel.text = album.artistName
-        albumNameLabel.text = album.albumName
+        coverOfAlbum.fetchImage(from: track.trackPicture ?? "")
+        trackNameLabel.text = track.trackName
+        artistNameLabel.text = track.artistName
+        albumNameLabel.text = track.albumName
         
         setupLayoutTrackStackView()
         addTargets()
-    }
-    
-    //MARK: - Private methods:
-    private func checkSavedTracks() {
-        /// это надо проверять после получения данных с сервера, добавить isFavorite в модель ячейки
-        StorageManager.shared.checkSavedTracks(for: cellSearchViewModel) {
-            [weak self] isFavouriteTrack in
-            self?.addButton.isHidden = isFavouriteTrack
-        }
     }
     
     //MARK: - Setup Layout
@@ -98,15 +91,13 @@ class SearchTrackCell: UITableViewCell {
     
     //MARK: - Button Targets
     private func addTargets() {
-        
         addButton.addTarget(self,
                             action: #selector(handleAddButtonTapped),
                             for: .touchUpInside)
     }
     
     @objc private func handleAddButtonTapped() {
-        /// сделать делегат для ячейки, обрабатывать данную логику в vc
-        StorageManager.shared.saveTrack(track: cellSearchViewModel)
+        searchTrackCellDelegate?.saveTrack(track: cellSearchViewModel)
         addButton.isHidden = true
     }
 }

@@ -11,13 +11,12 @@ import UIKit
 extension UIView {
     
     convenience init(
-        alpha: CGFloat = 1,
         backgroundColor: UIColor,
-        autoresizing: Bool = false
+        alpha: CGFloat = 1
     ) {
         self.init()
         self.alpha = alpha
         self.backgroundColor = backgroundColor
-        translatesAutoresizingMaskIntoConstraints = autoresizing
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }

@@ -14,15 +14,14 @@ extension UIStackView {
         axis: NSLayoutConstraint.Axis = .horizontal,
         distribution: UIStackView.Distribution = .fill,
         spacing: CGFloat = 0,
-        alignment: UIStackView.Alignment = .fill,
-        autoresizing: Bool = false
+        alignment: UIStackView.Alignment = .fill
     ) {
         self.init()
         self.axis = axis
         self.distribution = distribution
         self.spacing = spacing
         self.alignment = alignment
-        translatesAutoresizingMaskIntoConstraints = autoresizing
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }
 

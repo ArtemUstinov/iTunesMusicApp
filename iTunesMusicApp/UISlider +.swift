@@ -11,11 +11,12 @@ import UIKit
 extension UISlider {
     
     convenience init (
-        value: Float = 0.5,
-        autoresizing: Bool = false
+        value: Float = 0.5
     ) {
         self.init()
         self.value = value
-        translatesAutoresizingMaskIntoConstraints = autoresizing
+        minimumTrackTintColor = .lightGray
+        maximumTrackTintColor = .secondarySystemBackground
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }

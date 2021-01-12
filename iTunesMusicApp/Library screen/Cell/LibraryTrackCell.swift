@@ -10,16 +10,19 @@ import UIKit
 
 class LibraryTrackCell: UITableViewCell {
     
-    
     //MARK: - UI elements:
-    private let trackStackView = UIStackView(axis: .horizontal,
-                                             distribution: .fill,
-                                             spacing: 10)
-    private let trackLabelsStackView = UIStackView(axis: .vertical,
-                                                   distribution: .fillEqually,
-                                                   spacing: 2)
+    private let trackStackView = UIStackView(
+        axis: .horizontal,
+        distribution: .fill,
+        spacing: 10
+    )
+    private let trackLabelsStackView = UIStackView(
+        axis: .vertical,
+        distribution: .fillEqually,
+        spacing: 2
+    )
     
-    let coverOfAlbum = CoverImageView(contentMode: .scaleAspectFill)
+    private let trackImage = CoverImageView(cornerRadius: 5)
     
     private let trackNameLabel = UILabel(size: 17)
     private let artistNameLabel = UILabel(size: 13, color: #colorLiteral(red: 0.4941176471, green: 0.4941176471, blue: 0.5215686275, alpha: 1))
@@ -29,15 +32,15 @@ class LibraryTrackCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        coverOfAlbum.image = nil
+        trackImage.image = nil
         trackNameLabel.text = nil
         artistNameLabel.text = nil
         albumNameLabel.text = nil
     }
     
     //MARK: - Public methods:
-    func configureCell(with track: CellSearchViewModel.Cell) {
-        coverOfAlbum.fetchImage(from: track.trackPicture ?? "")
+    func configureCell(with track: CellSearchModel.Cell) {
+        trackImage.fetchImage(from: track.trackPicture ?? "")
         trackNameLabel.text = track.trackName
         artistNameLabel.text = track.artistName
         albumNameLabel.text = track.albumName
@@ -49,15 +52,13 @@ class LibraryTrackCell: UITableViewCell {
     private func setupLayoutTrackStackView() {
         contentView.addSubview(trackStackView)
         
-        trackStackView.addArrangedSubview(coverOfAlbum)
+        trackStackView.addArrangedSubview(trackImage)
         trackStackView.addArrangedSubview(trackLabelsStackView)
         
         trackLabelsStackView.addArrangedSubview(trackNameLabel)
         trackLabelsStackView.addArrangedSubview(artistNameLabel)
         trackLabelsStackView.addArrangedSubview(albumNameLabel)
-
-
-
+        
         NSLayoutConstraint.activate([
             trackStackView.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
@@ -67,14 +68,14 @@ class LibraryTrackCell: UITableViewCell {
                 equalTo: contentView.bottomAnchor,
                 constant: -12
             ),
-            trackStackView.leadingAnchor.constraint(
-                equalTo: contentView.readableContentGuide.leadingAnchor
-            ),
-            trackStackView.trailingAnchor.constraint(
-                equalTo: contentView.readableContentGuide.trailingAnchor
-            ),
-            coverOfAlbum.heightAnchor.constraint(equalToConstant: 60),
-            coverOfAlbum.widthAnchor.constraint(equalToConstant: 60)
+//            trackStackView.leadingAnchor.constraint(
+//                equalTo: contentView.leadingAnchor
+//            ),
+//            trackStackView.trailingAnchor.constraint(
+//                equalTo: contentView.readableContentGuide.trailingAnchor
+//            ),
+            trackImage.heightAnchor.constraint(equalToConstant: 60),
+            trackImage.widthAnchor.constraint(equalToConstant: 60)
         ])
     }
 }

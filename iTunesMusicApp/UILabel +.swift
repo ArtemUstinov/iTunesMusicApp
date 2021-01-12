@@ -9,15 +9,14 @@
 import UIKit
 
 extension UILabel {
-
+    
     convenience init (
         text: String = "",
         size: CGFloat = 17,
         weight: UIFont.Weight = .medium,
         alignment: NSTextAlignment = .natural,
         lines: Int = 1,
-        color: UIColor = .darkText,
-        autoresizing: Bool = false
+        color: UIColor = .darkText
     ) {
         self.init()
         self.text = text
@@ -25,6 +24,6 @@ extension UILabel {
         textAlignment = alignment
         numberOfLines = lines
         textColor = color
-        translatesAutoresizingMaskIntoConstraints = autoresizing
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }
