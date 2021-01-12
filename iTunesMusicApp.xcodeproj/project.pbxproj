@@ -151,8 +151,8 @@
 			children = (
 				AC26DCAC2593600700B1657B /* TabBarController.swift */,
 				DADE2D8F25AB1BD900C084D3 /* README.md */,
-				ACF22D6D259A58C1007DC991 /* TrackDetailView */,
 				ACF22D6A259A4658007DC991 /* Footer View */,
+				ACF22D6D259A58C1007DC991 /* TrackDetailView */,
 				AC26DCB32594D86200B1657B /* Search screen */,
 				AC26DCB82594F14200B1657B /* Library screen */,
 			);
