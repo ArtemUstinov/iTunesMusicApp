@@ -26,5 +26,5 @@ You can also minimize the player and while listening to music look for the track
 
 Screen of App:
 
-![Media library](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/MediaLibrary%20screen.png) ![Search](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/Search%20screen.png) ![Media player](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/MediaPlayer%20screen.png)
+![MediaLibrary](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/MediaLibrary%20screen.png) ![Search](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/Search%20screen.png) ![MediaPlayer](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/MediaPlayer%20screen.png) ![MiniMediaPlayer](https://github.com/ArtemUstinov/iTunesMusicApp/blob/main/Source/MiniPlayer%20screen.png) 
 
