@@ -22,7 +22,7 @@ You can also minimize the player and while listening to music look for the track
 - Button for adding a track to favorites
 
 ***
-#### In general, this is simple and convenient app designed in accordance with'Human Interface Guidelines' by Apple and iTunes style in particular:)
+#### In general, this is simple and convenient app designed in accordance with 'Human Interface Guidelines' by Apple and iTunes style in particular:)
 
 Screen of App:
 
