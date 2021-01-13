@@ -1,28 +1,28 @@
 # iTunesMusicApp
 
-Own application created in the likeness of iTunes.
+My own application created in the likeness of iTunes.
 
 Link to API - [iTunes API](https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/)
 
 ##### The application has two screens connected to each other:
 1) Library media screen - responsible for the library of selected tracks.
-2) Search screen - responsible for searching for tracks in iTunes
+2) Search screen - processing searches for specific tracks in iTunes.
 
-From each screen you can switch to a player that can rewind a track, adjust the sound volume, put tracks and pause them.
+From each screen you can switch to a player that can rewind, change, and pause tracks as well as adjust the sound volume.
 
-You can also minimize the player and while listening to music look for the track we need.
+You can also minimize the player and while listening to music look for the track you need.
 
 
 ###### Media library screen:
-- Start button for the first track player
-- Button to sort the sheet by date and alphabet
+- Play button for the first track 
+- Button to sort the playlist by date and alphabet
 
 ###### Search screen:
-- Has a search term
+- Has a search tool
 - Button for adding a track to favorites
 
 ***
-#### In general, this is a very simple and convenient gadget created according to the canons of Apple in the style of iTunes :)
+#### In general, this is simple and convenient app designed in accordance with'Human Interface Guidelines' by Apple and iTunes style in particular:)
 
 Screen of App:
 
